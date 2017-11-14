@@ -1,0 +1,120 @@
+.image-viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .25);
+    padding: 2rem;
+    display: flex;
+    z-index: 1000;
+}
+
+.image-viewer .container {
+    background: white;
+    flex: 1;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.meta {
+    flex: 1;
+    text-align: center;
+}
+
+.image-viewer .container h1 {
+    font-weight: bold;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    color: black;
+    font-family: Helvetica;
+    line-height: 2.5rem;
+}
+
+.image-viewer .container img {
+    margin-top: 1rem;
+    user-select: none;
+    max-width: 100%;
+    max-height: calc(100vh - 13rem);
+}
+
+.image-viewer .container p.votes {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: left;
+    color: black;
+    font-family: Helvetica;
+    line-height: 3rem;
+    margin: 0;
+    margin-left: 1rem;
+}
+
+.image-container {
+    flex: 1;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+}
+
+.close-viewer {
+    position: absolute;
+    top: 1.5rem;
+    right: 3rem;
+    cursor: pointer;
+}
+
+.next-btn {
+    position: absolute;
+    top: calc(50vh - 3rem);
+    line-height: 3rem;
+    text-align: center;
+    font-size: 2rem;
+    margin-right: -1rem;
+    width: 3rem;
+    right: 3rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.prev-btn {
+    position: absolute;
+    top: calc(50vh - 3rem);
+    line-height: 3rem;
+    text-align: center;
+    font-size: 2rem;
+    left: -1rem;
+    width: 3rem;
+    left: 3rem;
+    cursor: pointer;
+    user-select: none;
+    transform: rotate(180deg);
+}
+
+.image-viewer .container .vote-btn {
+    border: 0.25em solid black;
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    padding: .5rem;
+    border-radius: 0;
+    background: white;
+    outline: none;
+    cursor: pointer;
+    color: black;
+    height: 3rem;
+    width: 6rem;
+    margin-right: 1rem;
+}
+
+.image-viewer .container .vote-btn:hover, .image-viewer .container .vote-btn:focus {
+    background: rgba(0, 0, 0, .9);
+    color: white;
+}

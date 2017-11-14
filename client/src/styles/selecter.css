@@ -1,0 +1,157 @@
+.row-container {
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 580px) {
+    .row-container {
+        flex-direction: column;
+    }
+    .designer-selector {
+        margin-top: 1rem;
+        margin-left: 0 !important;
+    }
+
+    .universe-btn {
+        margin-right: 0 !important;
+    }
+}
+
+.designer-selector {
+    flex: 1;
+    height: 4rem;
+    margin-left: 1rem;
+    background: white;
+    border-radius: 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    border: .25rem solid black;
+    display: inline-block;
+    cursor: pointer !important;
+}
+
+.designer-selector:hover {
+    background: black;
+}
+
+.designer-selector:hover .Select-control {
+    background: black;
+}
+
+.designer-selector:hover .Select-placeholder, .designer-selector:hover .Select-value-label {
+    color: white !important;
+}
+
+.designer-selector:hover .Select-arrow {
+    border-color: #fff transparent transparent;
+}
+
+.Select-control, .Select-control:hover {
+    margin: 0;
+    border: none;
+    height: 3.5rem;
+}
+
+.Select-input input {
+    pointer-events: none;
+    user-select: none;
+}
+
+.Select-arrow {
+    border-color: #000 transparent transparent;
+    border-style: solid;
+    border-width: 1.5rem 1rem 0rem;
+    margin-bottom: -.25rem;
+    margin-right: .25rem;
+    display: inline-block;
+    height: 0;
+    width: 0;
+    position: relative;
+}
+
+.Select-clear-zone, .Select-arrow-zone {
+    display: none !important;
+}
+
+.Select-placeholder {
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: black;
+    font-family: Helvetica;
+    line-height: 3.5rem;
+    cursor: pointer !important;
+}
+
+.Select-menu-outer {
+    max-height: 100vh;
+    cursor: pointer;
+    margin-top: .25rem;
+    border-left: .25rem solid black;
+    border-right: .25rem solid black;
+    border-bottom: .25rem solid black;
+    border-top: none;
+    border-radius: 0;
+
+}
+.Select-menu {
+	max-height: 100vh;
+    border-radius: 0;
+
+}
+
+.Select-option {
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: black;
+    font-family: Helvetica;
+    line-height: 3.5rem;
+    border-radius: 0;
+}
+
+.Select-option:hover, .Select-option.is-focused {
+    background: black;
+    color: white;
+}
+
+.Select-value-label {
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: black;
+    font-family: Helvetica;
+    line-height: 3.5rem;
+    cursor: pointer !important;
+}
+
+.has-value.is-pseudo-focused.Select--single>.Select-control .Select-value .Select-value-label, .has-value.Select--single>.Select-control .Select-value .Select-value-label {
+    color: black;
+    cursor: pointer !important;
+}
+
+.universe-btn {
+    flex: 1;
+    height: 4rem;
+    margin-right: 1rem;
+    background: white;
+    border-radius: 0;
+    border: .25rem solid black;
+    outline: none;
+    font-weight: bold;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: inline-block;
+    cursor: pointer !important;
+}
+
+.universe-btn:hover {
+    color: white;
+    background: black;
+}

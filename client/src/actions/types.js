@@ -1,0 +1,17 @@
+export const FETCH_USER = 'fetch_user';
+export const LOGIN_USER = 'login_user';
+export const LOGIN_FAIL = 'login_fail';
+export const LOGOUT_USER = 'logout_user';
+export const CHANGE_DESIGNER = 'change_designer';
+export const GET_DESIGNERS = 'get_designers';
+export const GET_IMAGES_BY_DESIGNER = 'get_images_by_designer';
+export const GET_ALL_IMAGES = 'get_images';
+export const GET_VOTES = 'get_votes';
+export const CAST_VOTE = 'cast_vote';
+export const SHOW_IMAGE = 'show_image';
+export const HIDE_IMAGE = 'hide_image';
+export const UPLOAD_IMAGE = 'upload_image';
+export const UPLOAD_IMAGE_SUCCESS = 'upload_image_success';
+export const UPLOAD_IMAGE_FAIL = 'upload_image_fail';
+export const FINISH_PROCESSING_FILE_FOR_UPLOAD = 'finish_processing_file_for_upload';
+export const START_PROCESSING_FILE_FOR_UPLOAD = 'start_processing_file_for_upload';
