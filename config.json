@@ -8,4 +8,5 @@
     "MONGO_USER": "<mongodb user with read/write access",
     "MONGO_PASSWORD": "<mongodb user password>",
     "NODE_ENV": "development"
+    "APPLICATION_SECRET": "<secret for express session>"
 }
