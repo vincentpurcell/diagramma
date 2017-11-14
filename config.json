@@ -1,0 +1,12 @@
+{
+    "S3_KEY": "<your s3 key here>",
+    "S3_SECRET": "<your s3 secret here>",
+    "API_PORT": "<integer representing the port for the API>",
+    "S3_BUCKET": "<bucket name for uploaded files>",
+    "MONGO_DB_URL": "<url for the mongo db instance>",
+    "MONGO_DB_NAME": "<database name>",
+    "MONGO_USER": "<mongodb user with read/write access",
+    "MONGO_PASSWORD": "<mongodb user password>",
+    "NODE_ENV": "development"
+    "APPLICATION_SECRET": "<secret for express session>"
+}
