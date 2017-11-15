@@ -13,35 +13,34 @@ class Upload extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const upload = this.props.uploadImage;
-        this.props.upload.imagesQueue.forEach(image => upload(image));
+        Array.from(this.refs.files.files).forEach((file) => {
+            upload(file);
+        });
     }
 
     handleFiles(e) {
         this.props.startProcessingFilesForUpload();
 
         Array.from(e.target.files).forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = (upload) => {
-                this.props.saveImageBufferToState({
-                    data: upload.target.result,
-                    filename: file.name,
-                    filetype: file.type,
-                    s3Url: null,
-                    success: null,
-                    attempts: 0,
-                    designer: null,
-                    working: null,
-                    tags: []
-                });
-            };
-            reader.readAsDataURL(file);
+            const formData = new FormData();
+            formData.append('data', file);
+            this.props.saveImageBufferToState({
+                filename: file.name,
+                filetype: file.type,
+                s3Url: null,
+                success: null,
+                attempts: 0,
+                designer: null,
+                working: null,
+                tags: []
+            });
         });
     }
 
     notReadyToUpload() {
         const queue = this.props.upload.imagesQueue;
 
-        if (queue.length && queue.findIndex(i => !i.data) > -1) {
+        if (queue.length && queue.findIndex(i => !i.filename) > -1) {
             return true;
         }
 
@@ -62,6 +61,7 @@ class Upload extends Component {
                                     <p>Working: {item.working === null ? 'Not yet' : (item.working ? 'Uploading...' : 'Done')}</p>
                                     <p>Success: {item.success === null ? 'Not yet' : (item.success ? 'Success' : 'Fail')}</p>
                                     <p>S3 URL: {item.s3Url || 'Not uploaded'}</p>
+                                    <img height="50" width="50" src={item.s3Url}/>
                                 </li>
                             );
                         })}
@@ -79,7 +79,7 @@ class Upload extends Component {
                 <div className='col-sm-12'>
                     <label>Upload an image</label>
                     <form onSubmit={this.handleSubmit} encType="multipart/form-data">
-                        <input multiple type="file" onChange={this.handleFiles} />
+                        <input multiple type="file" ref="files" onChange={this.handleFiles} />
                         <input disabled={this.notReadyToUpload()} className='btn btn-primary' type="submit" value="Upload" />
                         {this.fileUploadProgress()}
                     </form>

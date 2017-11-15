@@ -26,7 +26,7 @@ export default function(state = null, action) {
             };
         case UPLOAD_IMAGE:
             const newQueue = [...state.imagesQueue];
-            const indexOfFile = newQueue.findIndex(i => i.filename === action.payload.filename);
+            const indexOfFile = newQueue.findIndex(i => i.filename === action.payload.name);
 
             newQueue[indexOfFile].working = true;
             newQueue[indexOfFile].success = null;
@@ -37,8 +37,8 @@ export default function(state = null, action) {
             };
         case UPLOAD_IMAGE_SUCCESS:
             const successQueue = [...state.imagesQueue];
-            const successPayload = action.payload;
-            const indexOfSuccessFile = successQueue.findIndex(i => i.filename === action.payload.key);
+            const successPayload = JSON.parse(action.payload);
+            const indexOfSuccessFile = successQueue.findIndex(i => i.filename === successPayload.filename);
 
             successQueue[indexOfSuccessFile].s3Url = successPayload.Location;
             successQueue[indexOfSuccessFile].working = false;
@@ -49,7 +49,7 @@ export default function(state = null, action) {
             };
         case UPLOAD_IMAGE_FAIL:
             const failureQueue = [...state.imagesQueue];
-            console.log('payload', action.payload);
+            const failPayload = JSON.parse(action.payload);
             const indexOfFailedFile = failureQueue.findIndex(i => i.filename === action.payload.filename);
 
             failureQueue[indexOfFailedFile].working = false;

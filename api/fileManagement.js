@@ -15,21 +15,34 @@ AWS.config = {
 const s3 = new AWS.S3({ region: AWS.config.region });
 
 exports.upload = (req, res, next) => {
-    const image = req.body.data;
-    const imageName = req.body.filename;
+    console.log('req.files.image', req.files.image);
+    const image = req.files.image;
 
-    const params = {
-        Bucket: bucketName,
-        Key: `${imageName}`,
-        ACL: 'public-read',
-        Body: image
-    };
+    const imageName = req.files.image.originalFilename;
+    const imageType = req.files.image.type;
 
-    s3.upload(params, (err, data) => {
+    fs.readFile(image.path, (err, imageData) => {
         if (err) {
             return res.status(500).send(err);
         } else {
-            return res.json(data);
+            const params = {
+                Bucket: bucketName,
+                Key: `${imageName}`,
+                ContentType: `${imageType}`,
+                ACL: 'public-read',
+                Body: imageData
+            };
+
+            s3.putObject(params, (err, data) => {
+                if (err) {
+                    return res.status(500).send(err);
+                } else {
+                    return res.json({
+                        filename: imageName,
+                        Location: `https://s3.${AWS.config.region}.amazonaws.com/${bucketName}/${req.files.image.originalFilename}`
+                    });
+                }
+            });
         }
     });
 };
