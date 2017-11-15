@@ -11,36 +11,37 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 const router = express.Router();
-const port = process.env.API_PORT || 3001;
 
-// Set the node environment
-process.env.NODE_ENV = 'development';
+// Application configuration options
+const config = require('./config');
 
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+const port = config.API_PORT || 3001;
+process.env.NODE_ENV = config.NODE_ENV || 'development';
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Database and auth setup
-const databaseURI = 'mongodb://vincent:Choptank2017@ds255715.mlab.com:55715/diagramma';
+const databaseURI = `mongodb://${config.MONGO_USER}:${config.MONGO_PASSWORD}@${config.MONGO_DB_URL}/${config.MONGO_DB_NAME}`;
+
 mongoose.Promise = global.Promise;
 mongoose.connect(databaseURI, {
-        keepAlive: true,
-        reconnectTries: Number.MAX_VALUE,
-        useMongoClient: true
-    })
-  .then(() =>  console.log('MongoDB Successfully connected'))
-  .catch((err) => console.error(err));
+    keepAlive: true,
+    reconnectTries: Number.MAX_VALUE,
+    useMongoClient: true
+})
+.then(() =>  console.log('MongoDB Successfully connected'))
+.catch((err) => console.error(err));
 
 // Set up passport session for login/auth
 app.use(require('express-session')({
-    secret: 'thisisasecret',
+    secret: config.APPLICATION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Serve static files
-app.use('/diagrams', express.static(path.join(__dirname, '/diagrams')));
 
 // Authenticate against the User schema
 const User = require('./models/user');

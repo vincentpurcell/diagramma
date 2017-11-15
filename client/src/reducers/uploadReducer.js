@@ -3,7 +3,8 @@ import {
     UPLOAD_IMAGE_SUCCESS,
     UPLOAD_IMAGE_FAIL,
     START_PROCESSING_FILE_FOR_UPLOAD,
-    FINISH_PROCESSING_FILE_FOR_UPLOAD
+    FINISH_PROCESSING_FILE_FOR_UPLOAD,
+    SAVE_IMAGE_BUFFER
 } from '../actions/types';
 
 export default function(state = null, action) {
@@ -13,38 +14,55 @@ export default function(state = null, action) {
                 ...state,
                 readyToUpload: false
             };
+        case SAVE_IMAGE_BUFFER:
+            return {
+                ...state,
+                imagesQueue: [ ...state.imagesQueue, action.payload ]
+            };
         case FINISH_PROCESSING_FILE_FOR_UPLOAD:
             return {
                 ...state,
-                imageFilename: action.payload.imageFilename,
-                imageBuffer: action.payload.imageBuffer,
-                imageType: action.payload.imageType,
                 readyToUpload: true
             };
         case UPLOAD_IMAGE:
+            const newQueue = [...state.imagesQueue];
+            const indexOfFile = newQueue.findIndex(i => i.filename === action.payload.filename);
+
+            newQueue[indexOfFile].working = true;
+            newQueue[indexOfFile].success = null;
+            newQueue[indexOfFile].attempts++;
+
             return {
-                ...state,
-                uploading: true,
-                imageFile: action.payload
+                ...state, imagesQueue: newQueue
             };
         case UPLOAD_IMAGE_SUCCESS:
+            const successQueue = [...state.imagesQueue];
+            const successPayload = action.payload;
+            const indexOfSuccessFile = successQueue.findIndex(i => i.filename === action.payload.key);
+
+            successQueue[indexOfSuccessFile].s3Url = successPayload.Location;
+            successQueue[indexOfSuccessFile].working = false;
+            successQueue[indexOfSuccessFile].success = true;
+
             return {
-                ...state,
-                uploading: false,
-                finished: true,
-                success: true,
-                finalS3Url: action.payload.s3,
-                readyToUpload: false
+                ...state, imagesQueue: successQueue
             };
         case UPLOAD_IMAGE_FAIL:
+            const failureQueue = [...state.imagesQueue];
+            console.log('payload', action.payload);
+            const indexOfFailedFile = failureQueue.findIndex(i => i.filename === action.payload.filename);
+
+            failureQueue[indexOfFailedFile].working = false;
+            failureQueue[indexOfFailedFile].success = false;
+
             return {
-                ...state,
-                uploading: false,
-                success: false,
-                finished: true,
-                readyToUpload: true
+                ...state, imagesQueue: failureQueue
             };
         default:
             return state;
     }
 }
+
+// imageFilename: action.payload.imageFilename,
+// imageBuffer: action.payload.imageBuffer,
+// imageType: action.payload.imageType,

@@ -15,3 +15,4 @@ export const UPLOAD_IMAGE_SUCCESS = 'upload_image_success';
 export const UPLOAD_IMAGE_FAIL = 'upload_image_fail';
 export const FINISH_PROCESSING_FILE_FOR_UPLOAD = 'finish_processing_file_for_upload';
 export const START_PROCESSING_FILE_FOR_UPLOAD = 'start_processing_file_for_upload';
+export const SAVE_IMAGE_BUFFER = 'save_image_buffer';

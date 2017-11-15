@@ -32,10 +32,7 @@ const initialStateUpload = {
     readyToUpload: true,
     finished: false,
     success: false,
-    imageFilename: null,
-    imageBuffer: null,
-    imageType: null,
-    finalS3Url: null
+    imagesQueue: []
 };
 
 const intialState = {

@@ -15,8 +15,11 @@ import {
     UPLOAD_IMAGE_SUCCESS,
     UPLOAD_IMAGE_FAIL,
     FINISH_PROCESSING_FILE_FOR_UPLOAD,
-    START_PROCESSING_FILE_FOR_UPLOAD
+    START_PROCESSING_FILE_FOR_UPLOAD,
+    SAVE_IMAGE_BUFFER
 } from './types';
+
+export * from './uploadActions';
 
 const shuffle = (a) => {
     for (let i = a.length - 1; i > 0; i--) {
@@ -114,23 +117,5 @@ export const castVote = (imageFile, designer) => async dispatch => {
         dispatch({ type: CAST_VOTE, payload: { votes: res.data.votes } });
     } catch(err) {
         dispatch({ type: CAST_VOTE, payload: { votes: [] } });
-    }
-};
-
-export const startProcessingFileForUpload = () => dispatch => {
-    dispatch({ type: START_PROCESSING_FILE_FOR_UPLOAD });
-};
-
-export const finishProcessingFileForUpload = (fileObject) => dispatch => {
-    dispatch({ type: FINISH_PROCESSING_FILE_FOR_UPLOAD, payload: fileObject });
-};
-
-export const uploadImage = (data) => async dispatch => {
-    dispatch({ type: UPLOAD_IMAGE, payload: data });
-    try {
-        const res = await axios.put('/api/image', data);
-        dispatch({ type: UPLOAD_IMAGE_SUCCESS, payload: res.data });
-    } catch(err) {
-        dispatch({ type: UPLOAD_IMAGE_FAIL });
     }
 };

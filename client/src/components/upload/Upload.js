@@ -6,62 +6,70 @@ import * as actions from '../../actions';
 class Upload extends Component {
     constructor(props) {
         super(props);
-        this.handleFile = this.handleFile.bind(this);
+        this.handleFiles = this.handleFiles.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log('uploading');
-        console.log(this.props.upload);
-        this.props.uploadImage(this.props.upload);
+        const upload = this.props.uploadImage;
+        this.props.upload.imagesQueue.forEach(image => upload(image));
     }
 
-    handleFile(e) {
-        this.props.startProcessingFileForUpload();
+    handleFiles(e) {
+        this.props.startProcessingFilesForUpload();
 
-        const reader = new FileReader();
-        const file = e.target.files[0];
-
-        reader.onload = (upload) => {
-            this.props.finishProcessingFileForUpload({
-                imageBuffer: upload.target.result,
-                imageFilename: file.name,
-                imageType: file.type
-            });
-            console.log(this.props.upload);
-        };
-
-        reader.readAsDataURL(file);
+        Array.from(e.target.files).forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (upload) => {
+                this.props.saveImageBufferToState({
+                    data: upload.target.result,
+                    filename: file.name,
+                    filetype: file.type,
+                    s3Url: null,
+                    success: null,
+                    attempts: 0,
+                    designer: null,
+                    working: null,
+                    tags: []
+                });
+            };
+            reader.readAsDataURL(file);
+        });
     }
 
-    uploadedImage() {
-        if (this.props.upload.s3) {
+    notReadyToUpload() {
+        const queue = this.props.upload.imagesQueue;
+
+        if (queue.length && queue.findIndex(i => !i.data) > -1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    fileUploadProgress() {
+        if (this.props.upload.imagesQueue.length) {
             return (
                 <div>
-                    <h4>Image uploaded!</h4>
-                    <img className='image-preview' alt="Uploaded" src={this.props.upload.s3} />
-                    <pre className='image-link-box'>{this.props.upload.s3}</pre>
+                    <h2>Queue: </h2>
+                    <ul>
+                        {this.props.upload.imagesQueue.map(function(item){
+                            return (
+                                <li>
+                                    <p>Filename: {item.filename}</p>
+                                    <p>Attempts: {item.attempts}</p>
+                                    <p>Working: {item.working === null ? 'Not yet' : (item.working ? 'Uploading...' : 'Done')}</p>
+                                    <p>Success: {item.success === null ? 'Not yet' : (item.success ? 'Success' : 'Fail')}</p>
+                                    <p>S3 URL: {item.s3Url || 'Not uploaded'}</p>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
             );
         }
-        return;
-    }
 
-    processingFile() {
-        if (this.props.upload.uploading) {
-            return (
-                <p>Uploading...</p>
-            );
-        } else if (this.props.upload.success) {
-            return (
-                <p>Success!</p>
-            );
-        } else if (this.props.upload.imageFile && !this.props.upload.success) {
-            return (
-                <p>Fail...</p>
-            );
-        }
         return;
     }
 
@@ -71,11 +79,10 @@ class Upload extends Component {
                 <div className='col-sm-12'>
                     <label>Upload an image</label>
                     <form onSubmit={this.handleSubmit} encType="multipart/form-data">
-                        <input type="file" onChange={this.handleFile} />
-                        <input disabled={!this.props.upload.readyToUpload} className='btn btn-primary' type="submit" value="Upload" />
-                        {this.processingFile()}
+                        <input multiple type="file" onChange={this.handleFiles} />
+                        <input disabled={this.notReadyToUpload()} className='btn btn-primary' type="submit" value="Upload" />
+                        {this.fileUploadProgress()}
                     </form>
-                    {this.uploadedImage()}
                 </div>
             </div>
         );
