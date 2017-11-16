@@ -40,6 +40,7 @@ class Upload extends Component {
                 filename: file.name,
                 filetype: file.type,
                 s3Url: null,
+                thumbnail: null,
                 success: null,
                 attempts: 0,
                 designer: null,
@@ -73,7 +74,11 @@ class Upload extends Component {
                                     <p>Working: {item.working === null ? 'Not yet' : (item.working ? 'Uploading...' : 'Done')}</p>
                                     <p>Success: {item.success === null ? 'Not yet' : (item.success ? 'Success' : 'Fail')}</p>
                                     <p>S3 URL: {item.s3Url || 'Not uploaded'}</p>
-                                    <img height="50" width="50" src={item.s3Url}/>
+                                    <p>S3 Thumnail URL: {item.thumbnail || 'Not uploaded'}</p>
+                                    <p>Thumbnail:</p>
+                                    <img height="50" width="50" src={item.thumbnail}/>
+                                    <p>Full Image:</p>
+                                    <img height="100" width="100" src={item.s3Url}/>
                                 </li>
                             );
                         })}

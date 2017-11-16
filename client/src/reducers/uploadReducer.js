@@ -40,7 +40,8 @@ export default function(state = null, action) {
             const successPayload = JSON.parse(action.payload);
             const indexOfSuccessFile = successQueue.findIndex(i => i.filename === successPayload.filename);
 
-            successQueue[indexOfSuccessFile].s3Url = successPayload.Location;
+            successQueue[indexOfSuccessFile].s3Url = successPayload.fullSize;
+            successQueue[indexOfSuccessFile].thumbnail = successPayload.thumbnail;
             successQueue[indexOfSuccessFile].working = false;
             successQueue[indexOfSuccessFile].success = true;
 
