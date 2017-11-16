@@ -9,4 +9,5 @@
     "MONGO_PASSWORD": "<mongodb user password>",
     "NODE_ENV": "development",
     "APPLICATION_SECRET": "<secret for express session>"
+    "TEMP_PATH": "tmp"
 }
