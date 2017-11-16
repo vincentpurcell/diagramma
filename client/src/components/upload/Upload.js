@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
+import '../../styles/uploader.css';
 
 class Upload extends Component {
     constructor(props) {
         super(props);
         this.handleFiles = this.handleFiles.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDragOver = this.handleDragOver.bind(this);
+        this.handleDragLeave = this.handleDragLeave.bind(this);
     }
 
     handleSubmit(e) {
@@ -18,12 +21,21 @@ class Upload extends Component {
         });
     }
 
-    handleFiles(e) {
-        this.props.startProcessingFilesForUpload();
+    handleDragOver(e) {
+        e.preventDefault();
+        this.refs.inputArea.classList.add('active');
+    }
 
+    handleDragLeave(e) {
+        e.preventDefault();
+        this.refs.inputArea.classList.remove('active');
+    }
+
+    handleFiles(e) {
+        e.preventDefault();
+        this.props.startProcessingFilesForUpload();
+        this.refs.inputArea.classList.remove('active');
         Array.from(e.target.files).forEach((file, index) => {
-            const formData = new FormData();
-            formData.append('data', file);
             this.props.saveImageBufferToState({
                 filename: file.name,
                 filetype: file.type,
@@ -55,7 +67,7 @@ class Upload extends Component {
                     <ul>
                         {this.props.upload.imagesQueue.map(function(item){
                             return (
-                                <li>
+                                <li key={item.filename}>
                                     <p>Filename: {item.filename}</p>
                                     <p>Attempts: {item.attempts}</p>
                                     <p>Working: {item.working === null ? 'Not yet' : (item.working ? 'Uploading...' : 'Done')}</p>
@@ -78,9 +90,15 @@ class Upload extends Component {
             <div className='row'>
                 <div className='col-sm-12'>
                     <label>Upload an image</label>
-                    <form onSubmit={this.handleSubmit} encType="multipart/form-data">
-                        <input multiple type="file" ref="files" onChange={this.handleFiles} />
-                        <input disabled={this.notReadyToUpload()} className='btn btn-primary' type="submit" value="Upload" />
+                    <form encType="multipart/form-data">
+                        <div className='inputContainer' ref='inputArea'>
+                            <label className='fileInputLabel' htmlFor='uploadFilesInput' onDragOver={this.handleDragOver} onDragLeave={this.handleDragLeave}>
+                                <p>Click or drop files</p>
+                                <input className='fileInput' id='uploadFilesInput' multiple type="file" ref="files" onChange={this.handleFiles} />
+                            </label>
+                        </div>
+
+                        <input disabled={this.notReadyToUpload()} className='btn btn-primary' type="submit" onClick={this.handleSubmit} value="Upload" />
                         {this.fileUploadProgress()}
                     </form>
                 </div>

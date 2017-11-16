@@ -1,0 +1,40 @@
+.inputContainer {
+    border: .25rem dashed black;
+    background: lightgray;
+    width: 50%;
+    min-height: 5rem;
+    display: block;
+    position: relative;
+    margin: 1rem 0;
+}
+
+.inputContainer.active {
+    background: red;
+}
+
+.inputContainer.active p {
+    display: none;
+}
+
+label.fileInputLabel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    height: 100%;
+    width: 100%;
+}
+
+label.fileInputLabel p {
+    font-weight: bold;
+    font-family: Helvetica;
+}
+
+input.fileInput {
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+}
