@@ -20,11 +20,8 @@ const initialStateAuth = {
 };
 const initialStateGallery = {
     designers: [],
-    designer: null,
     imageList: [],
-    displayDesigner: null,
-    showImage: null,
-    votes: []
+    showImage: null
 };
 
 const initialStateUpload = {

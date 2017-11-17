@@ -21,7 +21,7 @@ export default function(state = null, action) {
         case HIDE_IMAGE:
             return { ...state, showImage: null, displayDesigner: null };
         case GET_VOTES:
-            return { ...state, votes: action.payload.votes };
+            return { ...state, showImage: { ...state.showImage, votes: action.payload } };
         case CAST_VOTE:
             return { ...state, votes: action.payload.votes };
         default:

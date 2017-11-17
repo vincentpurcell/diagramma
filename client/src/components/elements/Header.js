@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import * as actions from '../../actions';
 import '../../styles/header.css';
@@ -16,7 +17,7 @@ class Header extends Component {
 
     render() {
         return (
-            <h1 className="main-title">Diagramma</h1>
+            <Link to={'/'}><h1 className="main-title">Diagramma</h1></Link>
         );
     }
 }

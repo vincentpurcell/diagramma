@@ -32,6 +32,12 @@ userController.getCurrentUser = (req, res) => {
     }
 };
 
+userController.getActiveUsers = (req, res) => {
+    User.find({ active: true }, (err, users) => {
+        res.json(users);
+    });
+};
+
 // Post registration
 userController.doRegister = (req, res) => {
     if (req.user) {

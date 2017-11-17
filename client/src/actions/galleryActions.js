@@ -55,18 +55,18 @@ export const hideImage = () => async dispatch => {
 
 export const getVotes = (image) => async dispatch => {
     try {
-        const res = await axios.get(`/api/votes/${image}`)
-        dispatch({ type: GET_VOTES, payload: { votes: res.data.votes } });
+        const res = await axios.get(`/api/votes/${image.id}`);
+        dispatch({ type: GET_VOTES, payload: res.data.votes });
     } catch(err) {
-        dispatch({ type: GET_VOTES, payload: { votes: [] } });
+        dispatch({ type: GET_VOTES, payload: 0 });
     }
 };
 
 export const castVote = (image) => async dispatch => {
     try {
-        const res = await axios.put(`/api/vote/${image}`);
-        dispatch({ type: CAST_VOTE, payload: { votes: res.data.votes } });
+        const res = await axios.put(`/api/vote/${image.id}`);
+        dispatch({ type: GET_VOTES, payload: res.data.votes });
     } catch(err) {
-        dispatch({ type: CAST_VOTE, payload: { votes: [] } });
+        dispatch({ type: GET_VOTES, payload: 0 });
     }
 };

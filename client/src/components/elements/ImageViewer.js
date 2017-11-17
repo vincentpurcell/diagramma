@@ -12,16 +12,56 @@ class ImageViewer extends Component {
         this.props.hideImage();
     }
 
-    showNext() {
-
-    }
-
-    showPrev() {
-
+    castVote() {
+        this.props.castVote(this.props.gallery.showImage);
     }
 
     componentDidMount() {
-        this.props.getVotes(this.props.gallery.showImage.id);
+        this.props.getVotes(this.props.gallery.showImage);
+    }
+
+    getVotes() {
+        if (this.props.gallery.showImage.votes === undefined) {
+            return '-';
+        } else if (this.props.gallery.showImage.votes) {
+            return this.props.gallery.showImage.votes;
+        }
+        return '0';
+    }
+
+    getDesignerName() {
+        if (this.props.gallery.showImage.designer) {
+            return this.props.gallery.showImage.designer.displayName
+        }
+        return 'Loading...';
+    }
+
+    showNext() {
+        const id = this.props.gallery.showImage.id;
+        const gallery = this.props.gallery.imageList;
+        const thisIndex = gallery.findIndex(image => image.id === id);
+
+        if (gallery[thisIndex+1]) {
+            this.props.showImage(gallery[thisIndex+1]);
+            this.props.getVotes(gallery[thisIndex+1]);
+        } else {
+            this.props.showImage(gallery[0]);
+            this.props.getVotes(gallery[gallery.length+1]);
+        }
+    }
+
+    showPrev() {
+        const id = this.props.gallery.showImage.id;
+        const gallery = this.props.gallery.imageList;
+        const thisIndex = this.props.gallery.imageList.findIndex(image => image.id === id);
+
+        if (gallery[thisIndex-1]) {
+            this.props.showImage(gallery[thisIndex-1]);
+            this.props.getVotes(gallery[thisIndex-1]);
+        } else {
+            this.props.showImage(gallery[gallery.length-1]);
+            this.props.getVotes(gallery[gallery.length-1]);
+        }
     }
 
     render() {
@@ -32,13 +72,13 @@ class ImageViewer extends Component {
                     <p className="next-btn" onClick={() => this.showNext()}>&rsaquo;</p>
                     <p className="prev-btn" onClick={() => this.showPrev()}>&rsaquo;</p>
                     <div className="image-container">
-                        <img alt={`Diagram by ${this.props.gallery.showImage.designer.displayName}`} src={this.props.gallery.showImage.imageUrl} />
+                        <img alt="diagram" src={this.props.gallery.showImage.imageUrl} />
                     </div>
                     <div className="meta">
-                        <h1>{this.props.gallery.showImage.designer.displayName}</h1>
+                        <h1>{this.getDesignerName()}</h1>
                         <div className="actions">
-                            <button className="vote-btn" onClick={this.props.castVote.bind(this.props.gallery.showImage)}>VOTE</button>
-                            <p className="votes">Votes: {this.props.gallery.showImage.votes.length}</p>
+                            <button className="vote-btn" onClick={() => this.castVote()}>VOTE</button>
+                            <p className="votes">Votes: {this.getVotes()}</p>
                         </div>
                     </div>
                 </div>

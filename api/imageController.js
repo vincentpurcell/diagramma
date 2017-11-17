@@ -7,6 +7,7 @@ const imageController = {};
 imageController.getAllImages = (req, res) => {
     Images.find({})
     .populate('designer', 'displayName')
+    .select('-votes')
     .exec((err, images) => {
         if (images) {
             res.json(images);
@@ -19,6 +20,7 @@ imageController.getAllImages = (req, res) => {
 imageController.getImagesByDesigner = (req, res) => {
     Images.find({ designer: req.params.designer })
     .populate('designer', 'displayName')
+    .select('-votes')
     .exec((err, images) => {
         if (images) {
             res.json(images);
@@ -28,12 +30,23 @@ imageController.getImagesByDesigner = (req, res) => {
     });
 };
 
+imageController.getVotes = (req, res) => {
+    Images.findById(req.params.image)
+    .exec((err, image) => {
+        if (image) {
+            res.json({ votes: image.votes.length });
+        } else {
+            res.json({ votes: '0'});
+        }
+    });
+};
+
 imageController.addVote = (req, res) => {
-    Images.findOneAndUpdate({ filename: req.params.image }, {$push: {votes: {timestamp: Date.now()}}}, {safe: true, upsert: true}).exec((err, returnImage) => {
+    Images.findByIdAndUpdate(req.params.image, {$push: {votes: {timestamp: Date.now()}}}, {safe: true, upsert: true}).exec((err, returnImage) => {
         if (returnImage) {
-            Images.findOne({ filename: req.params.image }).exec((err, updatedImage) => {
+            Images.findById(req.params.image).exec((err, updatedImage) => {
                 if (updatedImage) {
-                    res.json(updatedImage);
+                    res.json({ votes: updatedImage.votes.length });
                 } else {
                     res.status(500).send('Error voting');
                 }

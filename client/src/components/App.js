@@ -10,6 +10,10 @@ import LoginForm from './login/LoginForm';
 import Upload from './upload/Upload';
 import Dashboard from './admin/Dashboard';
 
+import ManageUsers from './admin/ManageUsers';
+import ManageSuperclusters from './admin/ManageSuperclusters';
+import ManageImages from './admin/ManageImages';
+
 class App extends Component {
     componentDidMount() {
         document.title = "DIAGRAMMA 2017";
@@ -20,7 +24,11 @@ class App extends Component {
         if (this.props.auth.id) {
             return (
                 <div>
-                    <Route path="/admin" component={Dashboard} />
+                    <Route path="/admin" exact component={Dashboard} />
+                    <Route path="/admin/users" exact component={ManageUsers} />
+                    <Route path="/admin/superclusters" exact component={ManageSuperclusters} />
+                    <Route path="/admin/images" exact component={ManageImages} />
+
                     <Route path="/upload" exact component={Upload} />
                 </div>
             );

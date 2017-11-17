@@ -17,9 +17,11 @@ router.get('/current_user', user.getCurrentUser);
 
 router.get('/images', images.getAllImages);
 router.get('/images/:designer', images.getImagesByDesigner);
-// router.get('/designers', images.getDesigners);
-// router.get('/votes/:image_id', images.getImageData);
-// router.put('/votes/:image_id', images.addVote);
+router.get('/designers', user.getActiveUsers);
+
+// Voting
+router.get('/votes/:image', images.getVotes);
+router.put('/vote/:image', images.addVote);
 
 // Uploading a new image.
 router.put('/image', multipartMiddleware, s3Controller.uploadImage);
