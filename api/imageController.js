@@ -1,26 +1,29 @@
 const mongoose = require('mongoose');
 
 const Images = require('../models/image');
-const User = require('../models/user');
 
 const imageController = {};
 
 imageController.getAllImages = (req, res) => {
-    Images.find({}, (err, images) => {
+    Images.find({})
+    .populate('designer', 'displayName')
+    .exec((err, images) => {
         if (images) {
             res.json(images);
         } else {
-            res.status(404).send('Image records not found');
+            res.json([]);
         }
     });
 };
 
 imageController.getImagesByDesigner = (req, res) => {
-    Images.find({}, (err, images) => {
+    Images.find({ designer: req.params.designer })
+    .populate('designer', 'displayName')
+    .exec((err, images) => {
         if (images) {
             res.json(images);
         } else {
-            res.status(404).send('Image records not found');
+            res.json([]);
         }
     });
 };

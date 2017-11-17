@@ -7,8 +7,14 @@ const UserSchema = new Schema({
     displayName: String,
     password: String,
     admin: { Boolean, default: false },
+    moderator: { Boolean, default: false },
+    permanent: { Boolean, default: false },
     created: { type: Date, default: Date.now },
-    lastLogin: Date
+    lastLogin: Date,
+    superclusters: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Supercluster'
+    }],
 });
 
 // Duplicate the ID field.

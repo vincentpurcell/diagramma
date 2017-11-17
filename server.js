@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const api = require('./api/api');
+const api = require('./api');
+const fixtures = require('./api/fixtures');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const app = express();
@@ -30,8 +31,12 @@ mongoose.connect(databaseURI, {
     reconnectTries: Number.MAX_VALUE,
     useMongoClient: true
 })
-.then(() =>  console.log('MongoDB Successfully connected'))
-.catch((err) => console.error(err));
+.then(() =>  {
+    console.log('MongoDB Successfully connected');
+    
+    // Initialize fixture data
+    fixtures.initialize();
+}).catch((err) => console.error(err));
 
 // Set up passport session for login/auth
 app.use(require('express-session')({
