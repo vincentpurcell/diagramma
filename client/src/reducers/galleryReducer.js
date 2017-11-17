@@ -17,7 +17,7 @@ export default function(state = null, action) {
         case GET_ALL_IMAGES:
             return { ...state, imageList: action.payload, designer: null };
         case SHOW_IMAGE:
-            return { ...state, showImage: action.payload.showImage, displayDesigner: action.payload.displayDesigner, votes: [] };
+            return { ...state, showImage: action.payload };
         case HIDE_IMAGE:
             return { ...state, showImage: null, displayDesigner: null };
         case GET_VOTES:
