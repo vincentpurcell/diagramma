@@ -4,8 +4,11 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const UserSchema = new Schema({
     username: String,
+    displayName: String,
     password: String,
-    created: { type: Date, default: Date.now }
+    admin: { Boolean, default: false },
+    created: { type: Date, default: Date.now },
+    lastLogin: Date
 });
 
 // Duplicate the ID field.

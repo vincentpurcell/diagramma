@@ -4,9 +4,16 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 const ImageSchema = new Schema({
     filename: String,
-    designer: String,
+    imageUrl: String,
+    thumbnailUrl: String,
+    designer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     votes: [
-        new Schema({timestamp: {type: Date, default: Date.now}})
+        new Schema({
+            timestamp: { type: Date, default: Date.now }
+        })
     ],
     created: { type: Date, default: Date.now }
 });

@@ -39,8 +39,9 @@ class Upload extends Component {
             this.props.saveImageBufferToState({
                 filename: file.name,
                 filetype: file.type,
-                s3Url: null,
-                thumbnail: null,
+                designer: null,
+                imageUrl: null,
+                thumbnailUrl: null,
                 success: null,
                 attempts: 0,
                 designer: null,
@@ -70,15 +71,16 @@ class Upload extends Component {
                             return (
                                 <li key={item.filename}>
                                     <p>Filename: {item.filename}</p>
+                                    <p>Designer: {item.designer}</p>
                                     <p>Attempts: {item.attempts}</p>
                                     <p>Working: {item.working === null ? 'Not yet' : (item.working ? 'Uploading...' : 'Done')}</p>
                                     <p>Success: {item.success === null ? 'Not yet' : (item.success ? 'Success' : 'Fail')}</p>
-                                    <p>S3 URL: {item.s3Url || 'Not uploaded'}</p>
-                                    <p>S3 Thumnail URL: {item.thumbnail || 'Not uploaded'}</p>
+                                    <p>S3 URL: {item.imageUrl || 'Not uploaded'}</p>
+                                    <p>S3 Thumnail URL: {item.thumbnailUrl || 'Not uploaded'}</p>
                                     <p>Thumbnail:</p>
-                                    <img height="50" width="50" src={item.thumbnail}/>
+                                    <img height="50" width="50" src={item.thumbnailUrl}/>
                                     <p>Full Image:</p>
-                                    <img height="100" width="100" src={item.s3Url}/>
+                                    <img height="100" width="100" src={item.imageUrl}/>
                                 </li>
                             );
                         })}
