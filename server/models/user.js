@@ -6,6 +6,7 @@ const UserSchema = new Schema({
     username: String,
     displayName: String,
     password: String,
+    email: String,
     admin: { Boolean, default: false },
     active: { Boolean, default: false },
     moderator: { Boolean, default: false },

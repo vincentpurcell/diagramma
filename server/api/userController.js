@@ -42,7 +42,7 @@ userController.getActiveUsers = (req, res) => {
 userController.doRegister = (req, res) => {
     if (req.user) {
         if (req.body.username) {
-            User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
+            User.register(new User(req.body), req.body.password, function(err, user) {
                 if (err) res.status(500).send(err);
                 res.json(user);
             });

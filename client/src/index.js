@@ -12,11 +12,16 @@ import reducers from './reducers';
 const initialStateAuth = {
     username: null,
     password: null,
-    id: null,
-    isAdmin: false,
     success: false,
     error: null,
-    loading: false
+    loading: false,
+    id: null,
+    admin: false,
+    displayName: null,
+    isDesigner: false,
+    moderator: false,
+    permanent: false,
+    superclusters: []
 };
 const initialStateGallery = {
     designers: [],

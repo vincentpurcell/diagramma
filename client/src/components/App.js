@@ -17,11 +17,13 @@ import ManageImages from './admin/ManageImages';
 class App extends Component {
     componentDidMount() {
         document.title = "DIAGRAMMA 2017";
+        this.props.getCurrentUser();
     }
 
     renderAdminIfHasPermissions() {
         // Uploading and management are behind auth walls.
-        if (this.props.auth.id) {
+        console.log(this.props.auth);
+        if (this.props.auth.admin) {
             return (
                 <div>
                     <Route path="/admin" exact component={Dashboard} />

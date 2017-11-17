@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     FETCH_USER,
+    GET_CURRENT_USER,
     LOGIN_USER,
     LOGIN_FAIL,
     LOGOUT_USER,
@@ -19,12 +20,12 @@ import {
     SAVE_IMAGE_BUFFER
 } from './types';
 
-export const fetchUser = () => async dispatch => {
+export const getCurrentUser = () => async dispatch => {
     try {
-        const res = await axios.get('/api/current_user');
-        dispatch({ type: FETCH_USER, payload: res.data });
+        const res = await axios.get('/api/user/current');
+        dispatch({ type: GET_CURRENT_USER, payload: res.data });
     } catch(err) {
-        dispatch({ type: FETCH_USER, payload: null });
+        dispatch({ type: GET_CURRENT_USER, payload: null });
     }
 };
 

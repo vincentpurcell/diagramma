@@ -2,6 +2,7 @@ export const FETCH_USER = 'fetch_user';
 export const LOGIN_USER = 'login_user';
 export const LOGIN_FAIL = 'login_fail';
 export const LOGOUT_USER = 'logout_user';
+export const GET_CURRENT_USER = 'get_current_user';
 export const CHANGE_DESIGNER = 'change_designer';
 export const GET_DESIGNERS = 'get_designers';
 export const GET_IMAGES_BY_DESIGNER = 'get_images_by_designer';

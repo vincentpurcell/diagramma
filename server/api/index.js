@@ -13,7 +13,7 @@ const s3Controller = require('./s3Controller');
 router.post('/login', user.doLogin);
 router.get('/logout', user.logout);
 router.post('/user', user.doRegister);
-router.get('/current_user', user.getCurrentUser);
+router.get('/user/current', user.getCurrentUser);
 
 router.get('/images', images.getAllImages);
 router.get('/images/:designer', images.getImagesByDesigner);
