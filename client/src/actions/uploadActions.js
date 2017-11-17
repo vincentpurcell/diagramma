@@ -29,6 +29,7 @@ export const uploadImage = (image) => async dispatch => {
     formData.append('filetype', image.type);
     formData.append('image', image);
 
+    XHR.setRequestHeader('authorization', localStorage.getItem('jwt'));
     XHR.open('PUT', '/api/image');
 
     // Add event listeners

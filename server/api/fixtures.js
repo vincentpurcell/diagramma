@@ -34,22 +34,20 @@ fixtures.initialize = () => {
         if (!superuser.length) {
             const superuserPassword = config.DEFAULT_APP_ADMIN_PASSWORD || Math.random().toString(36).slice(2);
 
-            User.register(new User({
-                username : defaultAdminUsername,
-            }), superuserPassword, (err, user) => {
-                if (err) throw(err);
-                User.findOne({ username: defaultAdminUsername})
-                .update({
-                    displayName : 'Admin',
-                    admin: true,
-                    moderator: true,
-                    permanent: true,
-                    isDesigner: false
-                })
-                .exec((err, admin) => {
-                    if (err) throw(err);
-                    else console.log(`\nCreated superadmin with \nUsername: ${defaultAdminUsername}\nPassword: ${superuserPassword}\n`);
-                });
+            const admin = new User({
+                username: defaultAdminUsername,
+                displayName : 'Super Admin',
+                password: superuserPassword,
+                admin: true,
+                email: 'admin@diagramma.co',
+                moderator: true,
+                permanent: true,
+                isDesigner: false
+            });
+
+            admin.save(admin, (err, user) => {
+                if (err) { console.error({ error: 'Error creating superadmin' }); }
+                else console.log(`\nCreated superadmin with\nUsername: ${defaultAdminUsername}\nPassword: ${superuserPassword}\n`);
             });
         } else {
             console.log('Superadmin exists, skipping...');

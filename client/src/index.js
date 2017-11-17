@@ -8,8 +8,19 @@ import 'react-select-2/dist/css/react-select-2.css';
 
 import App from './components/App';
 import reducers from './reducers';
+import { LOGIN_SUCCESS } from './actions/types';
+
+const hasValidJwt = () => {
+    if (localStorage.getItem('token')) {
+        return true;
+    }
+
+    return false;
+};
 
 const initialStateAuth = {
+    authenticated: false,
+    error: null,
     username: null,
     password: null,
     success: false,
@@ -43,7 +54,13 @@ const intialState = {
     upload: initialStateUpload
 };
 
-const store = createStore(reducers, intialState, applyMiddleware(reduxThunk));
+const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
+const store = createStoreWithMiddleware(reducers, intialState);
+const token = localStorage.getItem('token');
+
+if (token) {
+    store.dispatch({ type: LOGIN_SUCCESS });
+}
 
 ReactDOM.render(
     <Provider store={store}><App /></Provider>,

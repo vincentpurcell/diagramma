@@ -22,8 +22,7 @@ class App extends Component {
 
     renderAdminIfHasPermissions() {
         // Uploading and management are behind auth walls.
-        console.log(this.props.auth);
-        if (this.props.auth.admin) {
+        if (this.props.auth.authenticated) {
             return (
                 <div>
                     <Route path="/admin" exact component={Dashboard} />

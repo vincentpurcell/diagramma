@@ -3,13 +3,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const logger = require('morgan');
-const cookieParser = require('cookie-parser');
-const path = require('path');
+const morgan = require('morgan');
 const api = require('./api');
 const fixtures = require('./api/fixtures');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const app = express();
 const router = express.Router();
 
@@ -24,40 +20,21 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Database and auth setup
 const databaseURI = `mongodb://${config.MONGO_USER}:${config.MONGO_PASSWORD}@${config.MONGO_DB_URL}/${config.MONGO_DB_NAME}`;
-
 mongoose.Promise = global.Promise;
 mongoose.connect(databaseURI, {
     keepAlive: true,
     reconnectTries: Number.MAX_VALUE,
     useMongoClient: true
-})
-.then(() =>  {
+}).then(() =>  {
     console.log('MongoDB Successfully connected');
-    
+
     // Initialize fixture data
     fixtures.initialize();
 }).catch((err) => console.error(err));
 
-// Set up passport session for login/auth
-app.use(require('express-session')({
-    secret: config.APPLICATION_SECRET,
-    resave: false,
-    saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Authenticate against the User schema
-const User = require('./models/user');
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(logger('dev'));
+app.use(morgan('dev'));
 
 //To prevent errors from Cross Origin Resource Sharing, we will set
 //our headers to allow CORS with middleware like so:
@@ -72,8 +49,8 @@ app.use(function(req, res, next) {
 
 app.use('/api', api);
 
-// error handler
-app.use(function(err, req, res, next) {
+// Error handler
+app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -83,7 +60,7 @@ app.use(function(err, req, res, next) {
     res.json(res);
 });
 
-//starts the server and listens for requests
-app.listen(port, function() {
+// Starts the server and listens for requests
+app.listen(port, () => {
     console.log(`API running on port ${port}`);
 });

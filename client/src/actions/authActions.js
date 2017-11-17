@@ -2,8 +2,8 @@ import axios from 'axios';
 import {
     FETCH_USER,
     GET_CURRENT_USER,
-    LOGIN_USER,
-    LOGIN_FAIL,
+    LOGIN_SUCCESS,
+    AUTH_ERROR,
     LOGOUT_USER,
     GET_DESIGNERS,
     GET_IMAGES_BY_DESIGNER,
@@ -20,9 +20,18 @@ import {
     SAVE_IMAGE_BUFFER
 } from './types';
 
+export const authError = (error) => {
+    return {
+        type: AUTH_ERROR,
+        payload: error
+    }
+};
+
 export const getCurrentUser = () => async dispatch => {
     try {
-        const res = await axios.get('/api/user/current');
+        const res = await axios.get('/api/user/current', {
+            headers: { authorization: localStorage.getItem('token') }
+        });
         dispatch({ type: GET_CURRENT_USER, payload: res.data });
     } catch(err) {
         dispatch({ type: GET_CURRENT_USER, payload: null });
@@ -32,22 +41,28 @@ export const getCurrentUser = () => async dispatch => {
 export const loginUser = (user) => async dispatch => {
     try {
         const res = await axios.post('/api/login', user);
-        dispatch({ type: LOGIN_USER, payload: res.data });
-    } catch (e) {
-        dispatch({ type: LOGIN_FAIL, payload: 'Wrong username or password' });
+        dispatch({ type: LOGIN_SUCCESS });
+
+        // Save the JWT
+        localStorage.setItem('token', res.data.token);
+    } catch (err) {
+        dispatch(authError(err));
     }
 };
 
 export const registerUser = (user) => async dispatch => {
     try {
         const res = await axios.post('/api/user', user);
-        dispatch({ type: LOGIN_USER, payload: res.data });
-    } catch (e) {
-        dispatch({ type: LOGIN_FAIL, payload: 'Wrong username or password' });
+        dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+    } catch (err) {
+        dispatch(authError(err));
     }
 };
 
 export const logoutUser = () => async dispatch => {
     const res = await axios.get('/api/logout');
-    dispatch({ type: LOGOUT_USER, payload: res.data });
+    dispatch({ type: LOGOUT_USER });
+
+    // Save the JWT
+    localStorage.removeItem('token');
 };

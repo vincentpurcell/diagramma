@@ -6,11 +6,18 @@ import * as actions from '../../actions';
 class LoginForm extends Component {
     tryLogin(e) {
         e.preventDefault();
-
         const username = this.refs.username.value;
         const password = this.refs.password.value;
 
         this.props.loginUser({ username, password });
+    }
+
+    renderError() {
+        if (this.props.auth.error) {
+            return (
+                <p>Oops</p>
+            );
+        }
     }
 
     render() {
@@ -21,6 +28,7 @@ class LoginForm extends Component {
                     <input type="text" ref="username" placeholder="Username" />
                     <input type="password" ref="password" placeholder="Password" />
                     <input type="submit" value="Login" />
+                    {this.renderError()}
                 </form>
             </div>
         );

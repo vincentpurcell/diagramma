@@ -1,9 +1,11 @@
+// Authentication
 export const FETCH_USER = 'fetch_user';
-export const LOGIN_USER = 'login_user';
-export const LOGIN_FAIL = 'login_fail';
+export const LOGIN_SUCCESS = 'login_success';
+export const AUTH_ERROR = 'auth_error';
 export const LOGOUT_USER = 'logout_user';
 export const GET_CURRENT_USER = 'get_current_user';
-export const CHANGE_DESIGNER = 'change_designer';
+
+// Gallery
 export const GET_DESIGNERS = 'get_designers';
 export const GET_IMAGES_BY_DESIGNER = 'get_images_by_designer';
 export const GET_ALL_IMAGES = 'get_images';
@@ -11,6 +13,8 @@ export const GET_VOTES = 'get_votes';
 export const CAST_VOTE = 'cast_vote';
 export const SHOW_IMAGE = 'show_image';
 export const HIDE_IMAGE = 'hide_image';
+
+// Uploading images
 export const UPLOAD_IMAGE = 'upload_image';
 export const UPLOAD_IMAGE_SUCCESS = 'upload_image_success';
 export const UPLOAD_IMAGE_FAIL = 'upload_image_fail';
