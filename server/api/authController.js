@@ -78,41 +78,23 @@ authController.getCurrentUser = (req, res) => {
 };
 
 authController.updateUser = (req, res) => {
+    const userId = req.user.id || req.body.id;
     const userObj = {};
     if (req.body.username) userObj.username = req.body.username;
     if (req.body.email) userObj.email = req.body.email;
     if (req.body.displayName) userObj.displayName = req.body.displayName;
 
-    if (req.body.password) {
-        bcrypt.genSalt(10, function(err, salt) {
-            if (err) { return next(err); }
+    // Only allow changing certain parameters by administrators
+    if (req.user.admin) {
+        if (req.body.active) userObj.active = req.body.active;
+        if (req.body.admin) userObj.admin = req.body.admin;
+        if (req.body.moderator) userObj.moderator = req.body.moderator;
+    }
 
-            // hash (encrypt) our password using the salt
-            bcrypt.hash(req.body.password, salt, null, function(err, hash) {
-                if (err) { return res.status(500).send(err); }
-                // overwrite plain text password with encrypted password
-                userObj.password = hash;
-                console.log('savewpass', userObj);
-
-                User.findByIdAndUpdate(req.user.id || req.body.id, userObj, (err, updatedUser) => {
-                    User.findById(req.user.id, (err, user) => {
-                        res.json({
-                            id: user.id,
-                            displayName: user.displayName,
-                            email: user.email,
-                            isDesigner: user.isDesigner,
-                            admin: user.admin,
-                            moderator: user.moderator,
-                            superclusters: user.superclusters,
-                            token: tokenForUser(req.user)
-                        });
-                    });
-                });
-            });
-        });
-    } else {
-        User.findByIdAndUpdate(req.user.id || req.body.id, userObj, (err, updatedUser) => {
-            User.findById(req.user.id, (err, user) => {
+    // Utility function to save a given user with provided data object.
+    const saveUpdatedUser = (data) => {
+        User.findByIdAndUpdate(userId, data, (err, updatedUser) => {
+            User.findById(userId, (err, user) => {
                 res.json({
                     id: user.id,
                     displayName: user.displayName,
@@ -125,11 +107,26 @@ authController.updateUser = (req, res) => {
                 });
             });
         });
+    };
+
+    // If setting a new password, hash it.
+    if (req.body.password) {
+        bcrypt.genSalt(10, function(err, salt) {
+            if (err) { return res.status(500).send(err); }
+
+            // hash (encrypt) our password using the salt
+            bcrypt.hash(req.body.password, salt, null, (err, hash) => {
+                if (err) { return res.status(500).send(err); }
+
+                // overwrite plain text password with encrypted password
+                userObj.password = hash;
+
+                saveUpdatedUser(userObj);
+            });
+        });
+    } else {
+        saveUpdatedUser(userObj);
     }
-
-    console.log('save', userObj);
-
-
 };
 
 module.exports = authController;
