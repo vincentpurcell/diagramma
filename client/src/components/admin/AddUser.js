@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import * as actions from '../../actions';
 import Admin from './Admin';
 
-class ManageSuperclusters extends Component {
+class AddUser extends Component {
     render() {
         return (
             <Admin>
-                <h1>Manage Superclusters</h1>
+                <h1>Manage Images</h1>
             </Admin>
         );
     }
@@ -18,4 +18,4 @@ function mapStateToProps({ auth }) {
     return { auth };
 }
 
-export default connect(mapStateToProps, actions)(ManageSuperclusters);
+export default connect(mapStateToProps, actions)(AddUser);

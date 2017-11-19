@@ -9,7 +9,7 @@ import '../../styles/selecter.css';
 class DesignerSelector extends Component {
     constructor(props) {
         super(props);
-        this.changeFilter = this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.showAll = this.showAll.bind(this);
     }
 
@@ -19,7 +19,7 @@ class DesignerSelector extends Component {
 
     handleChange(e) {
         if (e && e.value) {
-            this.props.getImagesByDesigner(e.value);
+            this.props.getImagesByDesigner(e);
         } else {
             this.props.getImages();
         }
@@ -29,26 +29,17 @@ class DesignerSelector extends Component {
         this.props.getImages();
     }
 
-    convertToHumanName(str) {
-        const name = str.replace('-', ' ');
-        return name.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-    }
-
     getDesigners() {
         if (!this.props.gallery || !this.props.gallery.designers || !this.props.gallery.designers.length) {
             return [];
         }
 
-        let list = [];
-        this.props.gallery.designers.forEach((d) => {
-            if (d !== 'diagrams') {
-                list.push({
-                    label: this.convertToHumanName(d),
-                    value: d
-                });
-            }
+        return this.props.gallery.designers.map(d => {
+            return {
+                label: d.displayName,
+                value: d.id
+            };
         });
-        return list;
     }
 
     render() {
@@ -58,7 +49,7 @@ class DesignerSelector extends Component {
                 <Select
                     value={this.props.gallery.designer}
                     className="designer-selector"
-                    onChange={this.changeFilter}
+                    onChange={this.handleChange}
                     options={this.getDesigners()}
                     placeholder="View by Designer"
                 />

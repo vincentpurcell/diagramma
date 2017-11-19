@@ -4,15 +4,10 @@ const User = require('../models/user');
 
 const userController = {};
 
-// Get current user
-userController.getCurrentUser = (req, res) => {
-    User.findById(req.user.id, (err, user) => {
-        res.json(user);
-    });
-};
-
 userController.getActiveUsers = (req, res) => {
-    User.find({ active: true }, (err, users) => {
+    User.find({ active: true })
+    .select('id displayName')
+    .exec((err, users) => {
         res.json(users);
     });
 };

@@ -10,11 +10,25 @@ export default function(state = null, action) {
     console.log('action',action);
     switch (action.type) {
         case LOGIN_SUCCESS:
-        return { ...state, ...action.payload, authenticated: true };
+            return { ...state, ...action.payload, authenticated: true };
         case AUTH_ERROR:
-            return { ...state, authenticated: false, error: action.payload };
+            return { ...state, authenticated: false, error: action.payload, password: null };
         case LOGOUT_USER:
-            return { ...state, authenticated: false };
+            return {
+                authenticated: false,
+                error: null,
+                username: null,
+                password: null,
+                success: false,
+                loading: false,
+                id: null,
+                admin: false,
+                displayName: null,
+                isDesigner: false,
+                moderator: false,
+                permanent: false,
+                superclusters: []
+            };
         case GET_CURRENT_USER:
             return { ...state, ...action.payload };
         case FETCH_USER:

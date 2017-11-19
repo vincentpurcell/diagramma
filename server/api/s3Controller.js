@@ -28,11 +28,18 @@ exports.deleteImage = (req, res) => {
             }
         };
 
+        console.log('Deleteing', {Key: image}, {Key: thumbnail});
+
         s3.deleteObjects(params, (err, data) => {
             if (err) {
                 return res.status(500).send(err);
             } else {
-                res.status(200).send('Bye bye, birdie!');
+                Images.findOneAndRemove({ s3Key: req.params.id }, (err, success) => {
+                    if (err) { res.status(500).send({ 'err': 'Deleted from s3 but not the DB.'})}
+                    else {
+                        res.status(200).send('Bye bye, birdie!');
+                    }
+                });
             }
         });
     }
@@ -40,12 +47,12 @@ exports.deleteImage = (req, res) => {
     if (!req.params.id) {
         res.status(400).send('Image ID is required');
     } else {
-        Images.findById(req.params.id)
+        Images.findOne({ s3Key: req.params.id })
         .exec((err, foundImage)  => {
             if (err) {
                 res.status(404).send('Image not found');
             } else {
-                deleteFileFromS3(foundImage.filename, `thumbnail-${foundImage.filename}`)
+                deleteFileFromS3(foundImage.s3Key, `thumbnail-${foundImage.s3Key}`)
             }
         });
     }
@@ -53,17 +60,25 @@ exports.deleteImage = (req, res) => {
 
 exports.uploadImage = (req, res, next) => {
     const image = req.files.image;
-    const imageName = req.files.image.originalFilename;
+
+    // Make the image name unique so we don't overwrite files in s3
+    console.log('req', req);
+    const imageName = `${req.user.id}-${Date.now()}-${req.files.image.originalFilename}`;
     const imageType = req.files.image.type;
     const imagePath = req.files.image.path;
+    const designer = req.body.designer || req.user._id;
+    const title = req.body.title || req.files.image.originalFilename;
 
     function saveImageRecord(params) {
         // Build the file object.
         const newImageObject = {};
-        newImageObject.filename = imageName;
+        newImageObject.filename = req.files.image.originalFilename;
         newImageObject.imageUrl = params.fullSize;
         newImageObject.thumbnailUrl = params.thumbnail;
-        newImageObject.designer = req.user._id;
+        newImageObject.designer = designer;
+        newImageObject.title = title;
+        newImageObject.active = true;
+        newImageObject.s3Key = imageName;
 
         Images.create(newImageObject, (err, newImage) => {
             if (err) res.status(500).send(err);

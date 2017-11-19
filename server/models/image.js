@@ -4,7 +4,10 @@ const Schema = mongoose.Schema;
 const ImageSchema = new Schema({
     filename: String,
     imageUrl: String,
+    s3Key: String,
     thumbnailUrl: String,
+    active: Boolean,
+    title: String,
     designer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

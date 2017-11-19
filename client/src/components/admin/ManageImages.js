@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
-import AdminNav from './AdminNav';
+import Admin from './Admin';
 
 class ManageImages extends Component {
     render() {
         return (
-            <div>
+            <Admin>
                 <h1>Manage Images</h1>
-                <AdminNav />
-            </div>
+            </Admin>
         );
     }
 }

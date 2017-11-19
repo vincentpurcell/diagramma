@@ -11,13 +11,23 @@ class Upload extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleDragOver = this.handleDragOver.bind(this);
         this.handleDragLeave = this.handleDragLeave.bind(this);
+        this.changeImageTitle = this.changeImageTitle.bind(this);
+    }
+
+    componentWillUnmount() {
+        this.props.clearUploadQueue();
+    }
+
+    changeImageTitle(e) {
+        this.props.setTitle({ title: e.target.value, image: e.target.id });
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const upload = this.props.uploadImage;
         Array.from(this.refs.files.files).forEach((file) => {
-            upload(file);
+            const imageTitle = this.props.upload.imagesQueue.find(i => i.filename === file.name).title;
+            upload(file, imageTitle);
         });
     }
 
@@ -44,7 +54,8 @@ class Upload extends Component {
                 thumbnailUrl: null,
                 success: null,
                 attempts: 0,
-                designer: null,
+                active: false,
+                title: file.name,
                 working: null,
                 tags: []
             });
@@ -67,20 +78,23 @@ class Upload extends Component {
                 <div>
                     <h2>Queue: </h2>
                     <ul>
-                        {this.props.upload.imagesQueue.map(function(item){
+                        {this.props.upload.imagesQueue.map((item) => {
                             return (
                                 <li key={item.filename}>
                                     <p>Filename: {item.filename}</p>
                                     <p>Designer: {item.designer}</p>
                                     <p>Attempts: {item.attempts}</p>
+                                    <label htmlFor={`${item.filename}`}>Title</label>
+                                    <input type="text" id={`${item.filename}`} defaultValue={`${item.filename}`} onChange={this.changeImageTitle} />
                                     <p>Working: {item.working === null ? 'Not yet' : (item.working ? 'Uploading...' : 'Done')}</p>
                                     <p>Success: {item.success === null ? 'Not yet' : (item.success ? 'Success' : 'Fail')}</p>
                                     <p>S3 URL: {item.imageUrl || 'Not uploaded'}</p>
+                                    <p>S3 Key: {item.s3Key || 'Not uploaded'}</p>
                                     <p>S3 Thumnail URL: {item.thumbnailUrl || 'Not uploaded'}</p>
                                     <p>Thumbnail:</p>
-                                    <img height="50" width="50" src={item.thumbnailUrl}/>
+                                    <img height="50" alt="Thumnail preview" width="50" src={item.thumbnailUrl}/>
                                     <p>Full Image:</p>
-                                    <img height="100" width="100" src={item.imageUrl}/>
+                                    <img height="100" alt="Full size preview" width="100" src={item.imageUrl}/>
                                 </li>
                             );
                         })}
@@ -89,6 +103,10 @@ class Upload extends Component {
             );
         }
 
+        return;
+    }
+
+    renderDesignerSelector() {
         return;
     }
 
@@ -104,6 +122,7 @@ class Upload extends Component {
                                 <input className='fileInput' id='uploadFilesInput' multiple type="file" ref="files" onChange={this.handleFiles} />
                             </label>
                         </div>
+                        {this.renderDesignerSelector()}
 
                         <input disabled={this.notReadyToUpload()} className='btn btn-primary' type="submit" onClick={this.handleSubmit} value="Upload" />
                         {this.fileUploadProgress()}

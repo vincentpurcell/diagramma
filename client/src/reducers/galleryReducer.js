@@ -5,7 +5,9 @@ import {
     SHOW_IMAGE,
     HIDE_IMAGE,
     GET_VOTES,
-    CAST_VOTE
+    CAST_VOTE,
+    DELETE_IMAGE_SUCCESS,
+    DELETE_IMAGE_FAIL
 } from '../actions/types';
 
 export default function(state = null, action) {
@@ -24,6 +26,13 @@ export default function(state = null, action) {
             return { ...state, showImage: { ...state.showImage, votes: action.payload } };
         case CAST_VOTE:
             return { ...state, votes: action.payload.votes };
+        case DELETE_IMAGE_SUCCESS:
+            const deletedList = state.imageList.filter(i => i.s3Key !== action.payload );
+            return {
+                ...state, imageList: deletedList
+            };
+        case DELETE_IMAGE_FAIL:
+            return state;
         default:
             return state;
     }

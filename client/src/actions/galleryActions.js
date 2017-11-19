@@ -1,21 +1,13 @@
 import axios from 'axios';
+import { shuffle } from './utilities';
 import {
     GET_DESIGNERS,
     GET_IMAGES_BY_DESIGNER,
     GET_ALL_IMAGES,
     GET_VOTES,
-    CAST_VOTE,
     SHOW_IMAGE,
     HIDE_IMAGE,
 } from './types';
-
-const shuffle = (a) => {
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-};
 
 export const getDesigners = () => async dispatch => {
     try {
@@ -37,8 +29,8 @@ export const getImages = () => async dispatch => {
 
 export const getImagesByDesigner = (designer) => async dispatch => {
     try {
-        const res = await axios.get(`/api/images/${designer.id}`);
-        dispatch({ type: GET_IMAGES_BY_DESIGNER, payload: { imageList: shuffle(res.data), designer: designer.displayName} });
+        const res = await axios.get(`/api/images/${designer.value}`);
+        dispatch({ type: GET_IMAGES_BY_DESIGNER, payload: { imageList: shuffle(res.data), designer: designer.label} });
     } catch(err) {
         dispatch({ type: GET_IMAGES_BY_DESIGNER, payload: null });
     }

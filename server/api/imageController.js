@@ -5,7 +5,7 @@ const Images = require('../models/image');
 const imageController = {};
 
 imageController.getAllImages = (req, res) => {
-    Images.find({})
+    Images.find({ active: true })
     .populate('designer', 'displayName')
     .select('-votes')
     .exec((err, images) => {
@@ -20,10 +20,10 @@ imageController.getAllImages = (req, res) => {
 imageController.getImagesByDesigner = (req, res) => {
     Images.find({ designer: req.params.designer })
     .populate('designer', 'displayName')
-    .select('-votes')
+    .select(req.query.withVotes ? '' : '-votes')
     .exec((err, images) => {
         if (images) {
-            res.json(images);
+            req.query.getAll ? res.json(images) : res.json(images.filter(i => i.active));
         } else {
             res.json([]);
         }

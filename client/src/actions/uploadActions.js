@@ -1,11 +1,12 @@
-import axios from 'axios';
 import {
     UPLOAD_IMAGE,
     UPLOAD_IMAGE_SUCCESS,
     UPLOAD_IMAGE_FAIL,
     FINISH_PROCESSING_FILE_FOR_UPLOAD,
     START_PROCESSING_FILE_FOR_UPLOAD,
-    SAVE_IMAGE_BUFFER
+    SAVE_IMAGE_BUFFER,
+    SAVE_IMAGE_TITLE,
+    CLEAR_UPLOAD_QUEUE
 } from './types';
 
 export const startProcessingFilesForUpload = () => dispatch => {
@@ -16,11 +17,19 @@ export const saveImageBufferToState = (fileObject) => dispatch => {
     dispatch({ type: SAVE_IMAGE_BUFFER, payload: fileObject });
 };
 
+export const setTitle = (imageData) => dispatch => {
+    dispatch({ type: SAVE_IMAGE_TITLE, payload: imageData });
+};
+
 export const finishedProcessingFilesForUpload = (fileObject) => dispatch => {
     dispatch({ type: FINISH_PROCESSING_FILE_FOR_UPLOAD });
 };
 
-export const uploadImage = (image) => async dispatch => {
+export const clearUploadQueue = () => dispatch => {
+    dispatch({ type: CLEAR_UPLOAD_QUEUE });
+};
+
+export const uploadImage = (image, title, designer) => async dispatch => {
     dispatch({ type: UPLOAD_IMAGE, payload: image });
     const XHR = new XMLHttpRequest();
     const formData = new FormData();
@@ -29,8 +38,18 @@ export const uploadImage = (image) => async dispatch => {
     formData.append('filetype', image.type);
     formData.append('image', image);
 
-    XHR.setRequestHeader('authorization', localStorage.getItem('jwt'));
+    if (designer) {
+        formData.append('designer', designer);
+        console.log('appended designer', designer);
+    }
+
+    if (title) {
+        formData.append('title', title);
+        console.log('appended title', title);
+    }
+
     XHR.open('PUT', '/api/image');
+    XHR.setRequestHeader('authorization', localStorage.getItem('token'));
 
     // Add event listeners
     XHR.addEventListener('load', (transfer) => {

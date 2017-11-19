@@ -15,9 +15,31 @@ class Header extends Component {
         this.props.logoutUser();
     }
 
+    showAuthHeader() {
+        if (this.props.auth.authenticated) {
+            const role = this.props.auth.admin ? 'admin' : 'designer'
+            return (
+                <div>
+                    <li><Link to={`/${role}`}>Dashboard</Link></li>
+                    <li><button onClick={() => this.props.logoutUser()}>Logout</button></li>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <li><Link to={'/login'}>Login</Link></li>
+                    <li><Link to={'/signup'}>Sign Up</Link></li>
+                </div>
+            );
+        }
+    }
+
     render() {
         return (
-            <Link to={'/'}><h1 className="main-title">Diagramma</h1></Link>
+            <div>
+                <Link to={'/'}><h1 className="main-title">Diagramma</h1></Link>
+                {this.showAuthHeader()}
+            </div>
         );
     }
 }

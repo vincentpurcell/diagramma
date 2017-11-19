@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
-import AdminNav from './AdminNav';
+import Admin from './Admin';
 
-class Dashboard extends Component {
+class AdminDashboard extends Component {
     render() {
         return (
-            <div>
+            <Admin>
                 <h1>Dashboard</h1>
-                <AdminNav />
-            </div>
+            </Admin>
         );
     }
 }
@@ -19,4 +18,4 @@ function mapStateToProps({ auth }) {
     return { auth };
 }
 
-export default connect(mapStateToProps, actions)(Dashboard);
+export default connect(mapStateToProps, actions)(AdminDashboard);
