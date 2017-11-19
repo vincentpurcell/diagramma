@@ -18,6 +18,7 @@ class DesignerNav extends Component {
                         <li><Link to={'/designer'}>Dashboard</Link></li>
                         <li><Link to={'/designer/diagrams'}>Manage My Diagrams</Link></li>
                         <li><Link to={'/designer/upload'}>Upload</Link></li>
+                        <li><Link to={'/designer/profile'}>My Profile</Link></li>
                     </ul>
                 </nav>
             </div>

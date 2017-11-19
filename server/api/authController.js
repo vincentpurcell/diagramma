@@ -74,4 +74,22 @@ authController.getCurrentUser = (req, res) => {
         });
     });
 };
+
+authController.updateUser = (req, res) => {
+    User.findByIdAndUpdate(req.user.id || req.body.id, req.body, (err, updatedUser) => {
+        User.findById(req.user.id, (err, user) => {
+            res.json({
+                id: user.id,
+                displayName: user.displayName,
+                email: user.email,
+                isDesigner: user.isDesigner,
+                admin: user.admin,
+                moderator: user.moderator,
+                superclusters: user.superclusters,
+                token: tokenForUser(req.user)
+            });
+        });
+    });
+};
+
 module.exports = authController;

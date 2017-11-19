@@ -22,6 +22,7 @@ router.post('/signup', auth.signup);
 
 // User actions
 router.get('/user/current', requireAuth, auth.getCurrentUser);
+router.put('/user', requireAuth, auth.updateUser);
 
 // General images
 router.get('/images', images.getAllImages);

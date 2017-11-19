@@ -21,6 +21,7 @@ import ManageImages from './admin/ManageImages';
 import DesignerNav from './designer/DesignerNav';
 import DesignerDashboard from './designer/Dashboard';
 import MyDiagrams from './designer/MyDiagrams';
+import DesignerProfile from './designer/MyProfile';
 
 class App extends Component {
     componentDidMount() {
@@ -77,6 +78,7 @@ class App extends Component {
                     <Route path="/designer" exact component={DesignerDashboard} />
                     <Route path="/designer/diagrams" exact component={MyDiagrams} />
                     <Route path="/designer/upload" exact component={Upload} />
+                    <Route path="/designer/profile" exact component={DesignerProfile} />
                 </div>
             );
         }
