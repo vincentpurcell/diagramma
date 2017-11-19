@@ -10,7 +10,7 @@ imageController.getAllImages = (req, res) => {
     .select('-votes')
     .exec((err, images) => {
         if (images) {
-            res.json(images);
+            res.json(images.filter(i => i.designer !== null));
         } else {
             res.json([]);
         }
