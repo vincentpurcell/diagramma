@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const passport = require('passport');
 const jwt = require('jwt-simple');
+const bcrypt = require('bcrypt-nodejs');
+
 const User = require('../models/user');
-const config = require('../config.json')
+const config = require('../config.json');
 
 const authController = {};
 
@@ -76,20 +78,58 @@ authController.getCurrentUser = (req, res) => {
 };
 
 authController.updateUser = (req, res) => {
-    User.findByIdAndUpdate(req.user.id || req.body.id, req.body, (err, updatedUser) => {
-        User.findById(req.user.id, (err, user) => {
-            res.json({
-                id: user.id,
-                displayName: user.displayName,
-                email: user.email,
-                isDesigner: user.isDesigner,
-                admin: user.admin,
-                moderator: user.moderator,
-                superclusters: user.superclusters,
-                token: tokenForUser(req.user)
+    const userObj = {};
+    if (req.body.username) userObj.username = req.body.username;
+    if (req.body.email) userObj.email = req.body.email;
+    if (req.body.displayName) userObj.displayName = req.body.displayName;
+
+    if (req.body.password) {
+        bcrypt.genSalt(10, function(err, salt) {
+            if (err) { return next(err); }
+
+            // hash (encrypt) our password using the salt
+            bcrypt.hash(req.body.password, salt, null, function(err, hash) {
+                if (err) { return res.status(500).send(err); }
+                // overwrite plain text password with encrypted password
+                userObj.password = hash;
+                console.log('savewpass', userObj);
+
+                User.findByIdAndUpdate(req.user.id || req.body.id, userObj, (err, updatedUser) => {
+                    User.findById(req.user.id, (err, user) => {
+                        res.json({
+                            id: user.id,
+                            displayName: user.displayName,
+                            email: user.email,
+                            isDesigner: user.isDesigner,
+                            admin: user.admin,
+                            moderator: user.moderator,
+                            superclusters: user.superclusters,
+                            token: tokenForUser(req.user)
+                        });
+                    });
+                });
             });
         });
-    });
+    } else {
+        User.findByIdAndUpdate(req.user.id || req.body.id, userObj, (err, updatedUser) => {
+            User.findById(req.user.id, (err, user) => {
+                res.json({
+                    id: user.id,
+                    displayName: user.displayName,
+                    email: user.email,
+                    isDesigner: user.isDesigner,
+                    admin: user.admin,
+                    moderator: user.moderator,
+                    superclusters: user.superclusters,
+                    token: tokenForUser(req.user)
+                });
+            });
+        });
+    }
+
+    console.log('save', userObj);
+
+
 };
 
 module.exports = authController;
