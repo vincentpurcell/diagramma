@@ -63,11 +63,11 @@ class MyProfile extends Component {
                             <h5>My Profile</h5>
                         </div>
                         <div className="input-field col s12">
-                            <label htmlFor="display-name">My Public Display Name</label>
+                            <label htmlFor="display-name" className="active">My Public Display Name</label>
                             <input id="display-name" type="text" defaultValue={this.props.auth.displayName} onChange={this.changeDisplayName}/>
                         </div>
                         <div className="input-field col s12">
-                            <label htmlFor="email">My Email</label>
+                            <label htmlFor="email" className="active">My Email</label>
                             <input id="email" type="text" defaultValue={this.props.auth.email} onChange={this.changeEmail}/>
                         </div>
                         <div className="input-field col s12">

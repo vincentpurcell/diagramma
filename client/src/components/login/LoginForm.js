@@ -32,11 +32,11 @@ class LoginForm extends Component {
                         </div>
                         <div className="input-field col s12">
                             <label htmlFor="username">Username</label>
-                            <input id="username" type="text" ref="username" placeholder="Username" />
+                            <input id="username" type="text" ref="username" />
                         </div>
                         <div className="input-field col s12">
                             <label htmlFor="password">Username</label>
-                            <input id="password" type="password" ref="password" placeholder="Password" />
+                            <input id="password" type="password" ref="password" />
                             {this.renderError()}
                         </div>
                         <div className="input-field col s12">
