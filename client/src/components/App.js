@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+import 'materialize-css/dist/js/materialize.min.js';
+import 'materialize-css/dist/css/materialize.min.css';
 
 import * as actions from '../actions';
 import history from './history'
@@ -11,45 +13,20 @@ import LoginForm from './login/LoginForm';
 import SignupForm from './login/SignupForm';
 
 import Upload from './upload/Upload';
-import AdminNav from './admin/AdminNav';
+
 import AdminDashboard from './admin/Dashboard';
 import ManageUsers from './admin/ManageUsers';
 import AddUser from './admin/AddUser';
 import ManageSuperclusters from './admin/ManageSuperclusters';
 import ManageImages from './admin/ManageImages';
 
-import DesignerNav from './designer/DesignerNav';
 import DesignerDashboard from './designer/Dashboard';
 import MyDiagrams from './designer/MyDiagrams';
 import DesignerProfile from './designer/MyProfile';
 
 class App extends Component {
     componentDidMount() {
-        document.title = "DIAGRAMMA 2017";
         this.props.getCurrentUser();
-    }
-
-    renderHeader() {
-        if (this.props.auth.authenticated) {
-            if (this.props.auth.admin) {
-                return (
-                    <div>
-                        <Header />
-                        <AdminNav />
-                    </div>
-                );
-            }
-
-            return (
-                <div>
-                    <Header />
-                    <DesignerNav />
-                </div>
-            );
-        }
-        return (
-            <Header />
-        );
     }
 
     renderAdmin() {
@@ -92,14 +69,17 @@ class App extends Component {
         return (
             <Router history={history}>
                 <div>
-                    {this.renderHeader()}
+                    <Header />
+                    <div className="row">
+                        <div className="col s12">
+                            <Route path="/" exact component={Gallery} />
+                            <Route path="/login" exact component={LoginForm} />
+                            <Route path="/signup" exact component={SignupForm} />
 
-                    <Route path="/" exact component={Gallery} />
-                    <Route path="/login" exact component={LoginForm} />
-                    <Route path="/signup" exact component={SignupForm} />
-
-                    {this.renderAdmin()}
-                    {this.renderDesigner()}
+                            {this.renderAdmin()}
+                            {this.renderDesigner()}
+                        </div>
+                    </div>
                 </div>
             </Router>
         );

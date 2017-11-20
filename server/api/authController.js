@@ -78,7 +78,7 @@ authController.getCurrentUser = (req, res) => {
 };
 
 authController.updateUser = (req, res) => {
-    const userId = req.user.id || req.body.id;
+    const userId = req.body.id || req.user.id;
     const userObj = {};
     if (req.body.username) userObj.username = req.body.username;
     if (req.body.email) userObj.email = req.body.email;
@@ -86,7 +86,7 @@ authController.updateUser = (req, res) => {
 
     // Only allow changing certain parameters by administrators
     if (req.user.admin) {
-        if (req.body.active) userObj.active = req.body.active;
+        if (req.body.active !== null) userObj.active = req.body.active;
         if (req.body.admin) userObj.admin = req.body.admin;
         if (req.body.moderator) userObj.moderator = req.body.moderator;
     }

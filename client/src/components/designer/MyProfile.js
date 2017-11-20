@@ -41,7 +41,7 @@ class MyProfile extends Component {
         if (this.state.displayName) saveObj.displayName = this.state.displayName;
         if (this.state.email) saveObj.email = this.state.email;
         if (this.state.password && this.state.password === this.state.confirmPassword) saveObj.password = this.state.password;
-        this.props.updateUser(saveObj);
+        this.props.updateMyProfile(saveObj);
     }
 
     renderPasswordError() {
@@ -56,22 +56,34 @@ class MyProfile extends Component {
 
     render() {
         return (
-            <div>
-                <h1>My Profile</h1>
-                <label htmlFor="display-name">My Public Display Name</label>
-                <input id="display-name" type="text" defaultValue={this.props.auth.displayName} onChange={this.changeDisplayName}/>
-                <label htmlFor="email">My Email</label>
-                <input id="email" type="text" defaultValue={this.props.auth.email} onChange={this.changeEmail}/>
-
-                <label htmlFor="password">Password</label>
-                <input id="password" type="password" onChange={this.changePassword}/>
-
-                <label htmlFor="confirm-password">Confirm Password</label>
-                <input id="confirm-password" type="password" onChange={this.changeConfirmPassword}/>
-
-                {this.renderPasswordError()}
-
-                <button onClick={this.handleSubmit}>Update Profile</button>
+            <div className="row">
+                <form className="col s12" onSubmit={this.handleSubmit}>
+                    <div className="row">
+                        <div className="col s12">
+                            <h5>My Profile</h5>
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="display-name">My Public Display Name</label>
+                            <input id="display-name" type="text" defaultValue={this.props.auth.displayName} onChange={this.changeDisplayName}/>
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="email">My Email</label>
+                            <input id="email" type="text" defaultValue={this.props.auth.email} onChange={this.changeEmail}/>
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="password">Password</label>
+                            <input id="password" type="password" onChange={this.changePassword}/>
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="confirm-password">Confirm Password</label>
+                            <input id="confirm-password" type="password" onChange={this.changeConfirmPassword}/>
+                            {this.renderPasswordError()}
+                        </div>
+                        <div className="input-field col s12">
+                            <input className="waves-effect waves-light btn" onClick={this.handleSubmit} type="submit" value="Update Profile" />
+                        </div>
+                    </div>
+                </form>
             </div>
         );
     }

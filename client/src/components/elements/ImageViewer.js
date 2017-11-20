@@ -68,11 +68,11 @@ class ImageViewer extends Component {
         return (
             <div className="image-viewer">
                 <div className="container">
-                    <p className="close-viewer" onClick={() => this.hideImage()}>&#x2715;</p>
-                    <p className="next-btn" onClick={() => this.showNext()}>&rsaquo;</p>
-                    <p className="prev-btn" onClick={() => this.showPrev()}>&rsaquo;</p>
-                    <div className="image-container">
-                        <img alt="diagram" src={this.props.gallery.showImage.imageUrl} />
+                    <p className="close-viewer" onClick={() => this.hideImage()}><i className="material-icons">close</i></p>
+                    <p className="next-btn valign-wrapper" onClick={() => this.showNext()}><i className="material-icons">arrow_forward</i></p>
+                    <p className="prev-btn valign-wrapper" onClick={() => this.showPrev()}><i className="material-icons">arrow_back</i></p>
+                    <div className="image-container valign-wrapper">
+                        <img className="responsive-img" alt="diagram" src={this.props.gallery.showImage.imageUrl} />
                     </div>
                     <div className="meta">
                         <h1>{this.getDesignerName()}</h1>

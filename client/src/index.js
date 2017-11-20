@@ -5,7 +5,6 @@ import { createStore, applyMiddleware } from 'redux';
 import reduxThunk from 'redux-thunk';
 
 // Be sure to include styles at some point, probably during your bootstrapping
-import 'react-select-2/dist/css/react-select-2.css';
 
 import App from './components/App';
 import reducers from './reducers';

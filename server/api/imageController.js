@@ -41,6 +41,22 @@ imageController.getVotes = (req, res) => {
     });
 };
 
+imageController.updateImage = (req, res) => {
+    Images.findByIdAndUpdate(req.params.image, req.body, {safe: true, upsert: true}).exec((err, returnImage) => {
+        if (returnImage) {
+            Images.findById(req.params.image).exec((err, updatedImage) => {
+                if (updatedImage) {
+                    res.json(updatedImage);
+                } else {
+                    res.status(500).send('Error Updating image');
+                }
+            });
+        } else {
+            res.status(404).send('Image record not found');
+        }
+    });
+};
+
 imageController.addVote = (req, res) => {
     Images.findByIdAndUpdate(req.params.image, {$push: {votes: {timestamp: Date.now()}}}, {safe: true, upsert: true}).exec((err, returnImage) => {
         if (returnImage) {

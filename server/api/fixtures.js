@@ -39,6 +39,7 @@ fixtures.initialize = () => {
                 displayName : 'Super Admin',
                 password: superuserPassword,
                 admin: true,
+                active: true,
                 email: 'admin@diagramma.co',
                 moderator: true,
                 permanent: true,

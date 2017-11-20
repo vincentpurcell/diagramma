@@ -24,15 +24,33 @@ class SignupForm extends Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.tryLogin.bind(this)}>
-                    <h3>Sign up</h3>
-                    <input type="text" ref="username" placeholder="Username" />
-                    <input type="text" ref="displayName" placeholder="Display Name" />
-                    <input type="text" ref="email" placeholder="Email" />
-                    <input type="password" ref="password" placeholder="Password" />
-                    <input type="submit" value="Sign Up" />
-                    {this.renderError()}
+            <div className="row">
+                <form className="col s12" onSubmit={this.tryLogin.bind(this)}>
+                    <div className="row">
+                        <div className="col s12">
+                            <h3>Sign Up for Diagramma</h3>
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="username">Username</label>
+                            <input id="username" type="text" ref="username" placeholder="Username" />
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="username">Public Display Name</label>
+                            <input id="username" type="text" ref="displayName" placeholder="Public Display Name" />
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="username">Email</label>
+                            <input id="username" type="text" ref="email" placeholder="Email" />
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="password">Password</label>
+                            <input id="password" type="password" ref="password" placeholder="Password" />
+                            {this.renderError()}
+                        </div>
+                        <div className="input-field col s12">
+                            <input className="waves-effect waves-light btn" onClick={this.tryLogin.bind(this)} type="submit" value="Sign Up" />
+                        </div>
+                    </div>
                 </form>
             </div>
         );

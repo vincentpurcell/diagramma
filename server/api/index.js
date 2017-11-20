@@ -27,7 +27,8 @@ router.put('/user', requireAuth, auth.updateUser);
 // General images
 router.get('/images', images.getAllImages);
 router.get('/images/:designer', images.getImagesByDesigner);
-router.get('/designers', user.getActiveUsers);
+router.get('/designers', user.getUsers);
+router.put('/image/:image', requireAuth, images.updateImage);
 
 // Voting
 router.get('/votes/:image', images.getVotes);

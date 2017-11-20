@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
-
+import $ from 'jquery';
 import * as actions from '../../actions';
-import 'react-select/dist/react-select.css';
-import '../../styles/selecter.css';
+import '../../styles/selector.css';
 
 class DesignerSelector extends Component {
     constructor(props) {
@@ -15,6 +13,10 @@ class DesignerSelector extends Component {
 
     componentDidMount() {
         this.props.getDesigners();
+    }
+
+    componentWillReceiveProps() {
+        $('select').material_select();
     }
 
     handleChange(e) {
@@ -31,32 +33,37 @@ class DesignerSelector extends Component {
 
     getDesigners() {
         if (!this.props.gallery || !this.props.gallery.designers || !this.props.gallery.designers.length) {
-            return [];
+            return;
         }
 
         return this.props.gallery.designers.map(d => {
-            return {
-                label: d.displayName,
-                value: d.id
-            };
+            return (<option key={d.id} value={d.id}>{d.displayName}</option>);
         });
     }
 
     render() {
         return (
-            <div className="row-container">
-                <button className="universe-btn" onClick={this.showAll}>Universe</button>
-                <Select
-                    value={this.props.gallery.designer}
-                    className="designer-selector"
-                    onChange={this.handleChange}
-                    options={this.getDesigners()}
-                    placeholder="View by Designer"
-                />
+            <div className="row site-header">
+                <div className="input-field col s12 m6">
+                    <button className="btn universe white black-text z-depth-0" onClick={this.showAll}>Universe</button>
+                </div>
+                <div className="input-field col s12 m6 designers">
+                    <select
+                        onChange={this.handleChange}
+                        placeholder="View by Designer">
+                        {this.getDesigners()}
+                    </select>
+                </div>
             </div>
         );
     }
 }
+
+
+
+
+//                        value={this.props.gallery.designer}
+
 
 function mapStateToProps({ auth, gallery }) {
     return { auth, gallery };

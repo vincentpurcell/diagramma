@@ -42,12 +42,28 @@ export const loginUser = (user) => async dispatch => {
         const res = await axios.post('/api/login', user);
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         localStorage.setItem('token', res.data.token);
+
+        if (res.data.admin) {
+            history.push('/admin');
+        } else {
+            history.push('/designer');
+        }
     } catch (err) {
         dispatch(authError(err));
     }
 };
 
 export const updateUser = (user) => async dispatch => {
+    try {
+        const res = await axios.put('/api/user', user, {
+            headers: { authorization: localStorage.getItem('token') }
+        });
+    } catch (err) {
+        dispatch(authError(err));
+    }
+};
+
+export const updateMyProfile = (user) => async dispatch => {
     try {
         const res = await axios.put('/api/user', user, {
             headers: { authorization: localStorage.getItem('token') }

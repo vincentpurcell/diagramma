@@ -22,7 +22,8 @@
 }
 
 .meta {
-    flex: 1;
+    position: absolute;
+    bottom: 3rem;
     text-align: center;
 }
 
@@ -34,14 +35,7 @@
     text-align: center;
     color: black;
     font-family: Helvetica;
-    line-height: 2.5rem;
-}
-
-.image-viewer .container img {
-    margin-top: 1rem;
-    user-select: none;
-    max-width: 100%;
-    max-height: calc(100vh - 13rem);
+    line-height: 1rem;
 }
 
 .image-viewer .container p.votes {
@@ -72,31 +66,39 @@
     cursor: pointer;
 }
 
+.prev-btn:hover, .next-btn:hover {
+    background: rgba(0, 0, 0, .05);
+}
+
 .next-btn {
+    z-index: 100;
     position: absolute;
-    top: calc(50vh - 3rem);
+    top: 3rem;
+    bottom: 3rem;
+    padding: 1em;
     line-height: 3rem;
     text-align: center;
     font-size: 2rem;
     margin-right: -1rem;
-    width: 3rem;
+    width: 5rem;
     right: 3rem;
     cursor: pointer;
     user-select: none;
 }
 
 .prev-btn {
+    z-index: 100;
     position: absolute;
-    top: calc(50vh - 3rem);
+    top: 3rem;
+    bottom: 3rem;
     line-height: 3rem;
     text-align: center;
     font-size: 2rem;
-    left: -1rem;
-    width: 3rem;
-    left: 3rem;
+    left: 2rem;
+    width: 5rem;
+    padding: 1em;
     cursor: pointer;
     user-select: none;
-    transform: rotate(180deg);
 }
 
 .image-viewer .container .vote-btn {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import * as actions from '../../actions';
 import '../../styles/header.css';
@@ -8,37 +8,61 @@ import '../../styles/header.css';
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.processLogout = this.processLogout.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
-    processLogout() {
+    logout() {
         this.props.logoutUser();
     }
 
-    showAuthHeader() {
-        if (this.props.auth.authenticated) {
-            const role = this.props.auth.admin ? 'admin' : 'designer'
+    renderLinks() {
+        if (this.props.auth.admin) {
             return (
-                <div>
-                    <li><Link to={`/${role}`}>Dashboard</Link></li>
-                    <li><button onClick={() => this.props.logoutUser()}>Logout</button></li>
-                </div>
+                <ul>
+                    <li><NavLink exact activeClassName="active" to={'/admin'}>Dashboard</NavLink></li>
+                    <li><NavLink exact activeClassName="active" to={'/admin/users'}>Manage Users</NavLink></li>
+                    <li><a className="black-text" onClick={() => this.logout()}>Logout</a></li>
+                </ul>
+            );
+        } else if (this.props.auth.id) {
+            return (
+                <ul>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer'}>Dashboard</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/diagrams'}>Manage My Diagrams</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/upload'}>Upload</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/profile'}>My Profile</NavLink></li>
+                    <li><a className="black-text" onClick={() => this.logout()}>Logout</a></li>
+                </ul>
             );
         } else {
             return (
-                <div>
-                    <li><Link to={'/login'}>Login</Link></li>
-                    <li><Link to={'/signup'}>Sign Up</Link></li>
-                </div>
+                <ul>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/login'}>Login</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/signup'}>Sign Up</NavLink></li>
+                </ul>
             );
         }
+    }
+
+    showHeader() {
+        return (
+            <div>
+                <div className={this.props.auth.authenticated ? 'navbar-fixed' : 'navbar-fixed unauth'}>
+                    <nav className={this.props.auth.authenticated ? 'transparent black-text' : 'transparent black-text z-depth-0'}>
+                        <div className="nav-wrapper">
+                            {this.renderLinks()}
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        );
     }
 
     render() {
         return (
             <div>
-                <Link to={'/'}><h1 className="main-title">Diagramma</h1></Link>
-                {this.showAuthHeader()}
+                {this.showHeader()}
+                <NavLink to={'/'}><h1 className="main-title">Diagramma</h1></NavLink>
             </div>
         );
     }

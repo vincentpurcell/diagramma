@@ -9,35 +9,49 @@ class Dashboard extends Component {
     }
 
     renderList() {
-        if (this.props.gallery.imageList.length) {
+        if ( this.props.gallery.imageList && this.props.gallery.imageList.length) {
+            return this.props.gallery.imageList.map((item) => {
+                return (
+                    <tr key={item.filename}>
+                        <td><img alt="Thumnail preview" src={item.thumbnailUrl}/></td>
+                        <td><p>{item.title}</p></td>
+                        <td><p>{item.active ? 'Published' : 'Hidden'}</p></td>
+                        <td><p>{item.votes.length}</p></td>
+                    </tr>
+                );
+            });
+        }
+
+        return (
+            <tr>
+                <td colSpan="5"><p>You have no images.</p></td>
+            </tr>
+        );
+    }
+
+    render() {
+        if (this.props.gallery.imageList && this.props.gallery.imageList.length) {
             return (
                 <div>
-                    <h2>My images</h2>
-                    <ul>
-                        {this.props.gallery.imageList.map((item) => {
-                            return (
-                                <li key={item.filename}>
-                                    <img height="50" alt="Thumnail preview" width="50" src={item.thumbnailUrl}/>
-                                    <p>Title: {item.title}</p>
-                                    <p>Votes: {item.votes.length}</p>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    <h5>Dashboard</h5>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Thumbnail</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Votes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderList()}
+                        </tbody>
+                    </table>
                 </div>
             );
         }
 
         return (<p>You have no images.</p>);
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>Designer Dashboard</h1>
-                {this.renderList()}
-            </div>
-        );
     }
 }
 

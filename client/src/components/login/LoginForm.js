@@ -15,20 +15,32 @@ class LoginForm extends Component {
     renderError() {
         if (this.props.auth.error) {
             return (
-                <p>Oops</p>
+                <p>Wrong username or password.</p>
             );
         }
     }
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.tryLogin.bind(this)}>
-                    <h3>Sign in</h3>
-                    <input type="text" ref="username" placeholder="Username" />
-                    <input type="password" ref="password" placeholder="Password" />
-                    <input type="submit" value="Login" />
-                    {this.renderError()}
+            <div className="row">
+                <form className="col s12" onSubmit={this.tryLogin.bind(this)}>
+                    <div className="row">
+                        <div className="col s12">
+                            <h3>Sign in</h3>
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="username">Username</label>
+                            <input id="username" type="text" ref="username" placeholder="Username" />
+                        </div>
+                        <div className="input-field col s12">
+                            <label htmlFor="password">Username</label>
+                            <input id="password" type="password" ref="password" placeholder="Password" />
+                            {this.renderError()}
+                        </div>
+                        <div className="input-field col s12">
+                            <input className="waves-effect waves-light btn" type="submit" value="Login" />
+                        </div>
+                    </div>
                 </form>
             </div>
         );

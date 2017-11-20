@@ -7,7 +7,7 @@ class Designer extends Component {
     render() {
         return (
             <div>
-                <h1>Designer View</h1>
+                <h5>Designer View</h5>
                 {this.props.children}
             </div>
         );

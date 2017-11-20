@@ -12,6 +12,10 @@ class Upload extends Component {
         this.handleDragOver = this.handleDragOver.bind(this);
         this.handleDragLeave = this.handleDragLeave.bind(this);
         this.changeImageTitle = this.changeImageTitle.bind(this);
+
+        this.state = {
+            working: false
+        };
     }
 
     componentWillUnmount() {
@@ -24,6 +28,7 @@ class Upload extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.setState({ working: true });
         const upload = this.props.uploadImage;
         Array.from(this.refs.files.files).forEach((file) => {
             const imageTitle = this.props.upload.imagesQueue.find(i => i.filename === file.name).title;
@@ -72,33 +77,74 @@ class Upload extends Component {
         return false;
     }
 
+    renderThumbnail(item) {
+        if (item.thumbnailUrl) {
+            return (<img className="responsive-img" alt="Thumbnail" src={item.thumbnailUrl}/>);
+        }
+
+        return (<i className="material-icons">insert_photo</i>);
+    }
+
+    renderList() {
+        return this.props.upload.imagesQueue.map((item) => {
+            return (
+                <tr key={item.filename} className={item.working ? 'working' : ''}>
+                    <td>{this.renderThumbnail(item)}</td>
+                    <td><p>{item.filename}</p></td>
+                    <td>
+                        <label htmlFor={`${item.filename}`}>Title</label>
+                        <input type="text" id={`${item.filename}`} defaultValue={`${item.filename}`} onChange={this.changeImageTitle} />
+                    </td>
+                    <td><p>{item.designer}</p></td>
+                    <td><p>{item.attempts}</p></td>
+                    <td><p>{item.success === null ? 'Not yet uploaded' : (item.success ? 'Success' : 'Failed')}</p></td>
+                </tr>
+            );
+        });
+    }
+
     fileUploadProgress() {
+        if (this.state.working) {
+            const numberSuccess = this.props.upload.imagesQueue.filter(i => i.success).length;
+            const numberTotal = this.props.upload.imagesQueue.length;
+            const percentSuccess = 100 * numberSuccess / numberTotal;
+
+            if (percentSuccess === 100) {
+                setTimeout(() => {
+                    this.setState({ working: false });
+                }, 1500);
+            }
+
+            return (
+                <div className="progress">
+                    <div className="determinate" style={{ height: '1rem', width: `${percentSuccess}%` }}></div>
+                </div>
+            );
+        }
+
+        return;
+    }
+
+    fileQueueTable() {
         if (this.props.upload.imagesQueue.length) {
             return (
                 <div>
-                    <h2>Queue: </h2>
-                    <ul>
-                        {this.props.upload.imagesQueue.map((item) => {
-                            return (
-                                <li key={item.filename}>
-                                    <p>Filename: {item.filename}</p>
-                                    <p>Designer: {item.designer}</p>
-                                    <p>Attempts: {item.attempts}</p>
-                                    <label htmlFor={`${item.filename}`}>Title</label>
-                                    <input type="text" id={`${item.filename}`} defaultValue={`${item.filename}`} onChange={this.changeImageTitle} />
-                                    <p>Working: {item.working === null ? 'Not yet' : (item.working ? 'Uploading...' : 'Done')}</p>
-                                    <p>Success: {item.success === null ? 'Not yet' : (item.success ? 'Success' : 'Fail')}</p>
-                                    <p>S3 URL: {item.imageUrl || 'Not uploaded'}</p>
-                                    <p>S3 Key: {item.s3Key || 'Not uploaded'}</p>
-                                    <p>S3 Thumnail URL: {item.thumbnailUrl || 'Not uploaded'}</p>
-                                    <p>Thumbnail:</p>
-                                    <img height="50" alt="Thumnail preview" width="50" src={item.thumbnailUrl}/>
-                                    <p>Full Image:</p>
-                                    <img height="100" alt="Full size preview" width="100" src={item.imageUrl}/>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                    <h6>Uploaded Diagrams</h6>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Thumbnail</th>
+                                <th>Filename</th>
+                                <th>Title</th>
+                                <th>Designer</th>
+                                <th>Upload Attempts</th>
+                                <th>Success</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderList()}
+                        </tbody>
+                    </table>
                 </div>
             );
         }
@@ -110,22 +156,33 @@ class Upload extends Component {
         return;
     }
 
+    renderUploadButton() {
+        if (this.props.upload.imagesQueue.length) {
+            return (
+                <input disabled={this.notReadyToUpload()} className='btn btn-primary' type="submit" onClick={this.handleSubmit} value="Upload" />
+            );
+        }
+
+        return;
+    }
+
     render() {
         return (
             <div className='row'>
                 <div className='col-sm-12'>
-                    <label>Upload an image</label>
+                    <h5>Upload Diagrams</h5>
                     <form encType="multipart/form-data">
                         <div className='inputContainer' ref='inputArea'>
                             <label className='fileInputLabel' htmlFor='uploadFilesInput' onDragOver={this.handleDragOver} onDragLeave={this.handleDragLeave}>
-                                <p>Click or drop files</p>
+                                <h5 className="regular">Click or drop files here to add to upload queue</h5>
+                                <h5 className="onHover">Add files</h5>
                                 <input className='fileInput' id='uploadFilesInput' multiple type="file" ref="files" onChange={this.handleFiles} />
                             </label>
                         </div>
                         {this.renderDesignerSelector()}
-
-                        <input disabled={this.notReadyToUpload()} className='btn btn-primary' type="submit" onClick={this.handleSubmit} value="Upload" />
                         {this.fileUploadProgress()}
+                        {this.renderUploadButton()}
+                        {this.fileQueueTable()}
                     </form>
                 </div>
             </div>

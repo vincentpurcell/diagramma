@@ -9,9 +9,9 @@ import {
     HIDE_IMAGE,
 } from './types';
 
-export const getDesigners = () => async dispatch => {
+export const getDesigners = (getAll) => async dispatch => {
     try {
-        const res = await axios.get('/api/designers');
+        const res = await axios.get(`/api/designers${(getAll ? '?getAll=true': '')}`);
         dispatch({ type: GET_DESIGNERS, payload: res.data });
     } catch(err) {
         dispatch({ type: GET_DESIGNERS, payload: null });
@@ -43,6 +43,16 @@ export const showImage = (image) => async dispatch => {
 
 export const hideImage = () => async dispatch => {
     dispatch({ type: HIDE_IMAGE, payload: null });
+};
+
+export const updateImage = (image) => async dispatch => {
+    try {
+        const res = await axios.put(`/api/image/${image.id}`, image, {
+            headers: { authorization: localStorage.getItem('token') }
+        });
+    } catch (err) {
+        console.log('Error updating image', err);
+    }
 };
 
 export const getVotes = (image) => async dispatch => {
