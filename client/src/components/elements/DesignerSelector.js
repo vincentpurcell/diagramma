@@ -57,8 +57,9 @@ class DesignerSelector extends Component {
                     <select
                         id="designerSelector"
                         onChange={this.handleChange}
+                        defaultValue=""
                         placeholder="View by Designer">
-                        <option value="" disabled selected>View by Designer</option>
+                        <option value="" disabled>View by Designer</option>
                         {this.getDesigners()}
                     </select>
                 </div>

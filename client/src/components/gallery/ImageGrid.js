@@ -30,13 +30,14 @@ class ImageGrid extends Component {
         }
 
         return this.props.gallery.imageList.map(img =>
-            <img className="thumbnail"
-                 alt={`Diagram by {img.designer.displayName}`}
-                 title={`${img.filename} by ${img.designer.displayName}`}
-                 onClick={() => this.showImage(img)}
-                 key={img.id}
-                 src={img.thumbnailUrl}
-            />
+            <div className="thumbnail-container valign-wrapper center-align" key={img.id}>
+                <img className="thumbnail"
+                     alt={`Diagram by {img.designer.displayName}`}
+                     title={`${img.filename} by ${img.designer.displayName}`}
+                     onClick={() => this.showImage(img)}
+                     src={img.thumbnailUrl}
+                />
+            </div>
         );
     }
 
