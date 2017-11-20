@@ -13,6 +13,8 @@
 .image-viewer .image-container {
     background: white;
     flex: 1;
+    padding-bottom: 4rem;
+    padding-top: 4rem;
     padding-left: 1rem;
     padding-right: 1rem;
     display: flex;
