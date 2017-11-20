@@ -19,8 +19,8 @@ class Header extends Component {
         if (this.props.auth.admin) {
             return (
                 <ul>
-                    <li><NavLink exact activeClassName="active" to={'/admin'}>Dashboard</NavLink></li>
-                    <li><NavLink exact activeClassName="active" to={'/admin/users'}>Manage Users</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/admin'}>Dashboard</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/admin/users'}>Manage Users</NavLink></li>
                     <li><a className="black-text" onClick={() => this.logout()}>Logout</a></li>
                 </ul>
             );
@@ -48,7 +48,7 @@ class Header extends Component {
         return (
             <div>
                 <div className={this.props.auth.authenticated ? 'navbar-fixed' : 'navbar-fixed unauth'}>
-                    <nav className={this.props.auth.authenticated ? 'transparent black-text' : 'transparent black-text z-depth-0'}>
+                    <nav className={this.props.auth.authenticated ? 'white black-text' : 'transparent black-text z-depth-0'}>
                         <div className="nav-wrapper">
                             {this.renderLinks()}
                         </div>

@@ -6,11 +6,11 @@ const imageController = {};
 
 imageController.getAllImages = (req, res) => {
     Images.find({ active: true })
-    .populate('designer', 'displayName')
+    .populate('designer', 'displayName active')
     .select('-votes')
     .exec((err, images) => {
         if (images) {
-            res.json(images.filter(i => i.designer !== null));
+            res.json(images.filter(i => (i.active && i.designer !==null && i.designer.active)));
         } else {
             res.json([]);
         }
@@ -19,11 +19,11 @@ imageController.getAllImages = (req, res) => {
 
 imageController.getImagesByDesigner = (req, res) => {
     Images.find({ designer: req.params.designer })
-    .populate('designer', 'displayName')
+    .populate('designer', 'displayName active')
     .select(req.query.withVotes ? '' : '-votes')
     .exec((err, images) => {
         if (images) {
-            req.query.getAll ? res.json(images) : res.json(images.filter(i => i.active));
+            req.query.getAll ? res.json(images) : res.json(images.filter(i => (i.active && i.designer.active)));
         } else {
             res.json([]);
         }
