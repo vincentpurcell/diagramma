@@ -147,7 +147,7 @@ exports.uploadImage = (req, res, next) => {
     imagemagick.resize({
         srcPath: image.path,
         dstPath: `${config.TEMP_PATH}/thumbnail-${imageName}`,
-        width:   50
+        width:   100
     }, (err, stdout, stderr) => {
         if (err) {
             return res.status(500).send(err);
