@@ -28,8 +28,6 @@ exports.deleteImage = (req, res) => {
             }
         };
 
-        console.log('Deleteing', {Key: image}, {Key: thumbnail});
-
         s3.deleteObjects(params, (err, data) => {
             if (err) {
                 return res.status(500).send(err);
@@ -91,6 +89,10 @@ exports.uploadImage = (req, res, next) => {
         });
     }
 
+    function deleteFile(file) {
+        fs.unlink(file);
+    }
+
     function sendImage(thumbnailFile) {
         fs.readFile(imagePath, (err, imageData) => {
             if (err) {
@@ -109,6 +111,7 @@ exports.uploadImage = (req, res, next) => {
                         return res.status(500).send(err);
                     } else {
                         sendThumbnail(thumbnailFile);
+                        deleteFile(imagePath);
                     }
                 });
             }
@@ -132,6 +135,7 @@ exports.uploadImage = (req, res, next) => {
                     if (err) {
                         return res.status(500).send(err);
                     } else {
+                        deleteFile(thumbnailFile);
                         saveImageRecord({
                             fullSize: `https://s3.${AWS.config.region}.amazonaws.com/${bucketName}/${imageName}`,
                             thumbnail: `https://s3.${AWS.config.region}.amazonaws.com/${bucketName}/${thumbnailFile.replace(`${config.TEMP_PATH}/`, '')}`
