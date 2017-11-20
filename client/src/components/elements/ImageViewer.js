@@ -67,7 +67,7 @@ class ImageViewer extends Component {
     render() {
         return (
             <div className="image-viewer">
-                <div className="container">
+                <div className="image-container">
                     <p className="close-viewer" onClick={() => this.hideImage()}><i className="material-icons">close</i></p>
                     <p className="next-btn valign-wrapper" onClick={() => this.showNext()}><i className="material-icons">arrow_forward</i></p>
                     <p className="prev-btn valign-wrapper" onClick={() => this.showPrev()}><i className="material-icons">arrow_back</i></p>

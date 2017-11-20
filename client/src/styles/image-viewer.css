@@ -10,7 +10,7 @@
     z-index: 1000;
 }
 
-.image-viewer .container {
+.image-viewer .image-container {
     background: white;
     flex: 1;
     padding-left: 1rem;
@@ -21,13 +21,18 @@
     flex-direction: column;
 }
 
+.image-viewer .image-container img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
 .meta {
     position: absolute;
     bottom: 3rem;
     text-align: center;
 }
 
-.image-viewer .container h1 {
+.image-viewer .image-container h1 {
     font-weight: bold;
     font-size: 1rem;
     letter-spacing: 0.2em;
@@ -38,7 +43,7 @@
     line-height: 1rem;
 }
 
-.image-viewer .container p.votes {
+.image-viewer .image-container p.votes {
     font-size: 1rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -101,7 +106,7 @@
     user-select: none;
 }
 
-.image-viewer .container .vote-btn {
+.image-viewer .image-container .vote-btn {
     border: 0.25em solid black;
     font-size: 1rem;
     letter-spacing: 0.2em;
@@ -116,7 +121,7 @@
     margin-right: 1rem;
 }
 
-.image-viewer .container .vote-btn:hover, .image-viewer .container .vote-btn:focus {
+.image-viewer .image-container .vote-btn:hover, .image-viewer .image-container .vote-btn:focus {
     background: rgba(0, 0, 0, .9);
     color: white;
 }
