@@ -48,7 +48,7 @@ class Header extends Component {
         return (
             <div>
                 <div className={this.props.auth.authenticated ? 'navbar-fixed' : 'navbar-fixed unauth'}>
-                    <nav className={this.props.auth.authenticated ? 'white black-text' : 'transparent black-text z-depth-0'}>
+                    <nav className={this.props.auth.authenticated ? 'white black-text z-depth-0' : 'transparent black-text z-depth-0'}>
                         <div className="nav-wrapper">
                             {this.renderLinks()}
                         </div>

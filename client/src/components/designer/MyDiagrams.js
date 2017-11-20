@@ -33,12 +33,12 @@ class MyDiagrams extends Component {
     renderToggleStatusButton(image) {
         if (image.active) {
             return (
-                <button className="btn btn-flat" style={{ marginLeft: '1rem' }} onClick={() => this.toggleActiveStatus(image)}>Unpublish</button>
+                <button className="btn black" style={{ marginLeft: '1rem' }} onClick={() => this.toggleActiveStatus(image)}>Unpublish</button>
             );
         }
 
         return (
-            <button className="btn btn-flat" style={{ marginLeft: '1rem' }} onClick={() => this.toggleActiveStatus(image)}>Publish</button>
+            <button className="btn black" style={{ marginLeft: '1rem' }} onClick={() => this.toggleActiveStatus(image)}>Publish</button>
         );
     }
 
@@ -47,11 +47,11 @@ class MyDiagrams extends Component {
             return this.props.gallery.imageList.map((item) => {
                 return (
                     <tr key={item.filename}>
-                        <td><img className="responsive-img" alt="Thumnail preview" src={item.thumbnailUrl}/></td>
+                        <td><img className="responsive-img" style={{ maxHeight: '100px' }} alt="Thumnail preview" src={item.thumbnailUrl}/></td>
                         <td><p>{item.title}</p></td>
                         <td><p>{item.active ? 'Published' : 'Hidden'} {this.renderToggleStatusButton(item)}</p></td>
                         <td><p>{item.votes.length}</p></td>
-                        <td><button className="btn btn-flat waves" onClick={() => this.deleteImage(item)}>Delete</button></td>
+                        <td><button className="btn black waves" onClick={() => this.deleteImage(item)}>Delete</button></td>
                     </tr>
                 );
             });

@@ -26,7 +26,9 @@ class LoginForm extends Component {
                 <form className="col s12" onSubmit={this.tryLogin.bind(this)}>
                     <div className="row">
                         <div className="col s12">
-                            <h3>Sign in</h3>
+                            <h4>Login</h4>
+                            <p>Login to diagramma to manage your diagrams, edit your profile and submit diagrams to the collection.</p>
+                            <br />
                         </div>
                         <div className="input-field col s12">
                             <label htmlFor="username">Username</label>
@@ -38,7 +40,7 @@ class LoginForm extends Component {
                             {this.renderError()}
                         </div>
                         <div className="input-field col s12">
-                            <input className="waves-effect waves-light btn" type="submit" value="Login" />
+                            <input className="waves-effect waves-light btn black" type="submit" value="Login" />
                         </div>
                     </div>
                 </form>

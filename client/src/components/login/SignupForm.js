@@ -28,7 +28,9 @@ class SignupForm extends Component {
                 <form className="col s12" onSubmit={this.tryLogin.bind(this)}>
                     <div className="row">
                         <div className="col s12">
-                            <h3>Sign Up for Diagramma</h3>
+                            <h4>Sign Up for Diagramma</h4>
+                            <p>Sign up to join the diagramma community. While your account will be immediately available to upload diagrams of your own, you will need to be approved by an administrator before your diagrams go public.</p>
+                            <br />
                         </div>
                         <div className="input-field col s12">
                             <label htmlFor="username">Username</label>
@@ -48,7 +50,7 @@ class SignupForm extends Component {
                             {this.renderError()}
                         </div>
                         <div className="input-field col s12">
-                            <input className="waves-effect waves-light btn" onClick={this.tryLogin.bind(this)} type="submit" value="Sign Up" />
+                            <input className="waves-effect waves-light btn black corners" onClick={this.tryLogin.bind(this)} type="submit" value="Sign Up" />
                         </div>
                     </div>
                 </form>

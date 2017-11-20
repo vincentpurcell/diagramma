@@ -3,6 +3,7 @@ import { Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import 'materialize-css/dist/js/materialize.min.js';
 import 'materialize-css/dist/css/materialize.min.css';
+import '../styles/buttons.css';
 
 import * as actions from '../actions';
 import history from './history'

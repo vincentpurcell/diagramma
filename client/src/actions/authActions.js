@@ -80,7 +80,11 @@ export const registerUser = (user) => async dispatch => {
         const res = await axios.post('/api/signup', user);
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         localStorage.setItem('token', res.data.token);
-        //doRedirect(res);
+        if (res.data.admin) {
+            history.push('/admin');
+        } else {
+            history.push('/designer');
+        }
     } catch (err) {
         dispatch(authError(err));
     }
