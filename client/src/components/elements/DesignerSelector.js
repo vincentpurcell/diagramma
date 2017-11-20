@@ -1,4 +1,4 @@
-import React, { Component, findDOMNode } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import * as actions from '../../actions';
@@ -13,11 +13,11 @@ class DesignerSelector extends Component {
 
     componentDidMount() {
         this.props.getDesigners();
+        $('#designerSelector').on('change',this.handleChange);
     }
 
     componentWillReceiveProps() {
         $('select').material_select();
-        $('#designerSelector').on('change',this.handleChange);
     }
 
     handleChange(e) {
@@ -31,7 +31,6 @@ class DesignerSelector extends Component {
 
     showAll() {
         $('#designerSelector').val('').trigger('change');
-        this.props.getImages();
     }
 
     getDesigners() {
@@ -43,7 +42,6 @@ class DesignerSelector extends Component {
             if (d.displayName !== 'Super Admin') {
                 return (<option key={d.id} value={d.id}>{d.displayName}</option>);
             }
-            return;
         });
     }
 
