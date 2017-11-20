@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, findDOMNode } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import * as actions from '../../actions';
@@ -17,17 +17,20 @@ class DesignerSelector extends Component {
 
     componentWillReceiveProps() {
         $('select').material_select();
+        $('#designerSelector').on('change',this.handleChange);
     }
 
     handleChange(e) {
-        if (e && e.value) {
-            this.props.getImagesByDesigner(e);
+        console.log(e);
+        if (e && e.currentTarget.value) {
+            this.props.getImagesByDesigner(e.currentTarget);
         } else {
             this.props.getImages();
         }
     }
 
     showAll() {
+        $('#designerSelector').val('').trigger('change');
         this.props.getImages();
     }
 
@@ -52,8 +55,10 @@ class DesignerSelector extends Component {
                 </div>
                 <div className="input-field col s12 m6 designers">
                     <select
+                        id="designerSelector"
                         onChange={this.handleChange}
                         placeholder="View by Designer">
+                        <option value="" disabled selected>View by Designer</option>
                         {this.getDesigners()}
                     </select>
                 </div>

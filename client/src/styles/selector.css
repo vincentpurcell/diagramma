@@ -8,10 +8,15 @@
     text-align: center;
 }
 
+.dropdown-content li:first-child>span {
+    border-top: .25rem solid black;
+}
+
 .dropdown-content li>a, .dropdown-content li>span {
     color: black;
     background-color: white;
     border: .25rem solid black;
+    border-top: 0;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 0.02em;
