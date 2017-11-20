@@ -37,7 +37,10 @@ class DesignerSelector extends Component {
         }
 
         return this.props.gallery.designers.map(d => {
-            return (<option key={d.id} value={d.id}>{d.displayName}</option>);
+            if (d.displayName !== 'Super Admin') {
+                return (<option key={d.id} value={d.id}>{d.displayName}</option>);
+            }
+            return;
         });
     }
 
