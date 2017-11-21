@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import SmoothImage from '../elements/SmoothImage';
 
 import * as actions from '../../actions';
 import '../../styles/images.css';
@@ -30,11 +31,12 @@ class ImageGrid extends Component {
         }
 
         return this.props.gallery.imageList.map(img =>
-            <div className="thumbnail-container valign-wrapper center-align" key={img.id}>
-                <img className="thumbnail"
+            <div className="thumbnail-container valign-wrapper center-align"
+                key={img.id}
+                onClick={() => this.showImage(img)}>
+                <SmoothImage className="thumbnail"
                      alt={`Diagram by {img.designer.displayName}`}
                      title={`${img.filename} by ${img.designer.displayName}`}
-                     onClick={() => this.showImage(img)}
                      src={img.thumbnailUrl}
                 />
             </div>

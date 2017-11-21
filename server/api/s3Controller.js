@@ -60,7 +60,6 @@ exports.uploadImage = (req, res, next) => {
     const image = req.files.image;
 
     // Make the image name unique so we don't overwrite files in s3
-    console.log('req', req);
     const imageName = `${req.user.id}-${Date.now()}-${req.files.image.originalFilename}`;
     const imageType = req.files.image.type;
     const imagePath = req.files.image.path;

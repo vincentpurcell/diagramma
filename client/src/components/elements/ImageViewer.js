@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import SmoothImage from '../elements/SmoothImage';
+
 import * as actions from '../../actions';
 import '../../styles/image-viewer.css';
 
@@ -71,9 +73,7 @@ class ImageViewer extends Component {
                     <p className="close-viewer" onClick={() => this.hideImage()}><i className="material-icons">close</i></p>
                     <p className="next-btn valign-wrapper" onClick={() => this.showNext()}><i className="material-icons">arrow_forward</i></p>
                     <p className="prev-btn valign-wrapper" onClick={() => this.showPrev()}><i className="material-icons">arrow_back</i></p>
-                    <div className="image-container valign-wrapper">
-                        <img className="responsive-img" alt="diagram" src={this.props.gallery.showImage.imageUrl} />
-                    </div>
+                    <SmoothImage refreshOnProps className="responsive-img" alt="diagram" src={this.props.gallery.showImage.imageUrl} />
                     <div className="meta">
                         <h1>{this.getDesignerName()}</h1>
                         <div className="actions">
