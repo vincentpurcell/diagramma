@@ -37,7 +37,6 @@ export const getImagesByDesigner = (designer) => async dispatch => {
 };
 
 export const showImage = (image) => async dispatch => {
-    console.log('Got image in action', image);
     dispatch({ type: SHOW_IMAGE, payload: image });
 };
 
