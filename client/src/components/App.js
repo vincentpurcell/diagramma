@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import 'materialize-css/dist/js/materialize.min.js';
 import 'materialize-css/dist/css/materialize.min.css';
 import '../styles/buttons.css';
+import '../styles/footer.css';
+import '../styles/layout.css';
 
 import * as actions from '../actions';
 import history from './history'
@@ -71,7 +73,7 @@ class App extends Component {
             <Router history={history}>
                 <div>
                     <Header />
-                    <div className="row">
+                    <div className="row main-container">
                         <div className="col s12">
                             <Route path="/" exact component={Gallery} />
                             <Route path="/login" exact component={LoginForm} />
@@ -81,6 +83,12 @@ class App extends Component {
                             {this.renderDesigner()}
                         </div>
                     </div>
+                    <footer className="row white black-text">
+                        <div className="col s12">
+                            <p><a href="http://madewithloveinbaltimore.org">Made with &hearts; in Baltimore</a></p>
+                            <p>Diagramma is an <a href="https://github.com/vincentpurcell/diagramma">open source project</a> created by <a href="https://vincentpurcell.co">Vincent Purcell</a> and <a href="https://jonathanerwin.com">Jonathan Erwin</a>.</p>
+                        </div>
+                    </footer>
                 </div>
             </Router>
         );

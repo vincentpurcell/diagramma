@@ -54,6 +54,18 @@ class MyProfile extends Component {
         return;
     }
 
+    renderAccountStatusMessage() {
+        if (this.props.auth.active) {
+            return (
+                <p>Your account is active and approved. Any diagrams you upload and mark as "Published" will be immediately viewable on the public site.</p>
+            );
+        }
+
+        return (
+            <p>You account is current awaiting approval by an administrator. You may upload and manage your diagrams, but regardless of their publishing status, your diagrams will not be published until your account is approved.</p>
+        );
+    }
+
     render() {
         return (
             <div className="row">
@@ -62,6 +74,7 @@ class MyProfile extends Component {
                         <div className="col s12">
                             <h5>My Profile</h5>
                             <p>Account status: {this.props.auth.active ? 'Active' : 'Awaiting Admin Approval'}</p>
+                            {this.renderAccountStatusMessage()}
                             <br />
                         </div>
                         <div className="input-field col s12">

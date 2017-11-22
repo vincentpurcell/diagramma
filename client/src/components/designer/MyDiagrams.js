@@ -69,30 +69,39 @@ class MyDiagrams extends Component {
         );
     }
 
-    render() {
+    renderImageListTable() {
         if (this.props.auth.myImages.length) {
             return (
-                <div>
-                    <h5>My Diagrams</h5>
-                    <table className="highlight responsive-table">
-                        <thead>
-                            <tr>
-                                <th>Thumbnail</th>
-                                <th>Title</th>
-                                <th>Status</th>
-                                <th>Votes</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.renderList()}
-                        </tbody>
-                    </table>
-                </div>
+                <table className="highlight responsive-table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.renderList()}
+                    </tbody>
+                </table>
             );
         }
+        return (
+            <div>
+                <p>You have no images.</p>
+                <input className="waves-effect waves-light btn black white-text" type="button" value="Upload Images" />
+            </div>
+        )
+    }
 
-        return (<p>You have no images.</p>);
+    render() {
+        return (
+            <div>
+                <h5>My Diagrams</h5>
+                {this.renderImageListTable()}
+            </div>
+        );
     }
 }
 

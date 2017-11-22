@@ -8,7 +8,6 @@ h1.main-title {
 }
 
 .navbar-fixed.unauth {
-    opacity: .75;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
@@ -37,15 +36,18 @@ h1.main-title {
     }
 }
 
+.navbar-fixed nav a {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    box-shadow: inset 0 -0.1em 0 0 black;
+    color: black;
+    margin-right: .5rem;
+}
+
 .navbar-fixed nav a:hover {
-    background-color: black;
-    color: white !important;
+    color: white;
+    box-shadow: inset 0 -3rem 0 0 black;
 }
 
 .navbar-fixed {
-    margin-bottom: -15px;
+    margin-bottom: -5px;
 }
-
-/*nav ul li a.active {
-    background-color: rgba(0,0,0,0.1);
-}*/
