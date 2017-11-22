@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../actions';
+import '../../styles/my-diagrams.css';
 
 class MyDiagrams extends Component {
     constructor(props) {
         super(props);
         this.deleteImage = this.deleteImage.bind(this);
         this.toggleActiveStatus = this.toggleActiveStatus.bind(this);
+    }
+
+    showImage(img) {
+        this.props.showImage(img);
     }
 
     componentDidMount() {
@@ -31,25 +36,25 @@ class MyDiagrams extends Component {
     }
 
     renderToggleStatusButton(image) {
-        if (image.active) {
-            return (
-                <button className="btn black" style={{ marginLeft: '1rem' }} onClick={() => this.toggleActiveStatus(image)}>Unpublish</button>
-            );
-        }
-
         return (
-            <button className="btn black" style={{ marginLeft: '1rem' }} onClick={() => this.toggleActiveStatus(image)}>Publish</button>
+            <div className="switch" onClick={() => this.toggleActiveStatus(image)}>
+                <label>
+                    Unpublished
+                    <input type="checkbox" defaultChecked={image.active} />
+                    <span className="lever"></span>
+                </label>
+            </div>
         );
     }
 
     renderList() {
-        if ( this.props.gallery.imageList && this.props.gallery.imageList.length) {
-            return this.props.gallery.imageList.map((item) => {
+        if (this.props.auth.myImages.length) {
+            return this.props.auth.myImages.map((item) => {
                 return (
                     <tr key={item.filename}>
-                        <td><img className="responsive-img" style={{ maxHeight: '100px' }} alt="Thumnail preview" src={item.thumbnailUrl}/></td>
+                        <td><img onClick={() => this.showImage(item)} className="responsive-img" alt="Thumnail preview" src={item.thumbnailUrl}/></td>
                         <td><p>{item.title}</p></td>
-                        <td><p>{item.active ? 'Published' : 'Hidden'} {this.renderToggleStatusButton(item)}</p></td>
+                        <td>{this.renderToggleStatusButton(item)}</td>
                         <td><p>{item.votes.length}</p></td>
                         <td><button className="btn black waves" onClick={() => this.deleteImage(item)}>Delete</button></td>
                     </tr>
@@ -65,11 +70,11 @@ class MyDiagrams extends Component {
     }
 
     render() {
-        if (this.props.gallery.imageList && this.props.gallery.imageList.length) {
+        if (this.props.auth.myImages.length) {
             return (
                 <div>
                     <h5>My Diagrams</h5>
-                    <table>
+                    <table className="highlight responsive-table">
                         <thead>
                             <tr>
                                 <th>Thumbnail</th>

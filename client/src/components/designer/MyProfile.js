@@ -61,6 +61,8 @@ class MyProfile extends Component {
                     <div className="row">
                         <div className="col s12">
                             <h5>My Profile</h5>
+                            <p>Account status: {this.props.auth.active ? 'Active' : 'Awaiting Admin Approval'}</p>
+                            <br />
                         </div>
                         <div className="input-field col s12">
                             <label htmlFor="display-name" className="active">My Public Display Name</label>
@@ -80,7 +82,7 @@ class MyProfile extends Component {
                             {this.renderPasswordError()}
                         </div>
                         <div className="input-field col s12">
-                            <input className="waves-effect waves-light btn" onClick={this.handleSubmit} type="submit" value="Update Profile" />
+                            <input className="waves-effect waves-light btn black white-text" onClick={this.handleSubmit} type="submit" value="Update Profile" />
                         </div>
                     </div>
                 </form>

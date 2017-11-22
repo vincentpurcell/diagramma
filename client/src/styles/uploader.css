@@ -8,6 +8,12 @@
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
+@media only screen and (max-width: 480px) {
+    .inputContainer {
+        min-height: 8rem;
+    }
+}
+
 .inputContainer.active {
     background: lightgray;
 }
@@ -24,6 +30,7 @@ label.fileInputLabel {
 
 label.fileInputLabel h5 {
     text-align: center;
+    line-height: 2rem;
 }
 
 .inputContainer h5.regular {

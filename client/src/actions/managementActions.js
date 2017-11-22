@@ -2,15 +2,16 @@ import axios from 'axios';
 import {
     GET_IMAGES_BY_DESIGNER,
     DELETE_IMAGE_SUCCESS,
-    DELETE_IMAGE_FAIL
+    DELETE_IMAGE_FAIL,
+    GET_MY_IMAGES
 } from './types';
 
 export const getMyImages = (designer) => async dispatch => {
     try {
         const res = await axios.get(`/api/images/${designer.value}?withVotes=true&getAll=true`);
-        dispatch({ type: GET_IMAGES_BY_DESIGNER, payload: { imageList: res.data, designer: designer.label} });
+        dispatch({ type: GET_MY_IMAGES, payload: { myImages: res.data } });
     } catch(err) {
-        dispatch({ type: GET_IMAGES_BY_DESIGNER, payload: null });
+        dispatch({ type: GET_MY_IMAGES, payload: null });
     }
 };
 

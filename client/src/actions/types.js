@@ -4,6 +4,7 @@ export const LOGIN_SUCCESS = 'login_success';
 export const AUTH_ERROR = 'auth_error';
 export const LOGOUT_USER = 'logout_user';
 export const GET_CURRENT_USER = 'get_current_user';
+export const GET_MY_IMAGES = 'get_my_images';
 
 // Gallery
 export const GET_DESIGNERS = 'get_designers';

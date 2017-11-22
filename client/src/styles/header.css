@@ -8,13 +8,20 @@ h1.main-title {
 }
 
 .navbar-fixed.unauth {
-    opacity: 0;
+    opacity: .75;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.navbar-fixed.unauth ul {
+    margin-right: 1vw;
+    margin-left: 1vw;
+    width: 98vw;
 }
 
 .navbar-fixed.unauth:hover {
     opacity: 1;
 }
+
 .navbar-fixed,
 .navbar-fixed nav,
 .navbar-fixed nav a {
@@ -24,6 +31,12 @@ h1.main-title {
     transition: all .3s cubic-bezier(.25,.8,.25,1);
 }
 
+@media only screen and (max-width: 480px) {
+    .navbar-fixed, .navbar-fixed nav, .navbar-fixed nav a {
+        font-size: 9px;
+    }
+}
+
 .navbar-fixed nav a:hover {
     background-color: black;
     color: white !important;
@@ -31,10 +44,6 @@ h1.main-title {
 
 .navbar-fixed {
     margin-bottom: -15px;
-}
-
-.navbar-fixed.unauth ul li {
-    float: right;
 }
 
 /*nav ul li a.active {

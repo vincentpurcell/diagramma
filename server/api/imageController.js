@@ -23,7 +23,9 @@ imageController.getImagesByDesigner = (req, res) => {
     .select(req.query.withVotes ? '' : '-votes')
     .exec((err, images) => {
         if (images) {
-            req.query.getAll ? res.json(images) : res.json(images.filter(i => (i.active && i.designer.active)));
+            req.query.getAll
+            ? res.json(images)
+            : res.json(images.filter(i => (i.active && i.designer.active)));
         } else {
             res.json([]);
         }

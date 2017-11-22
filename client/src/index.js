@@ -12,6 +12,7 @@ import { LOGIN_SUCCESS } from './actions/types';
 
 const initialStateAuth = {
     authenticated: false,
+    active: false,
     error: null,
     username: null,
     password: null,
@@ -23,7 +24,8 @@ const initialStateAuth = {
     isDesigner: false,
     moderator: false,
     permanent: false,
-    superclusters: []
+    superclusters: [],
+    myImages: []
 };
 const initialStateGallery = {
     designers: [],

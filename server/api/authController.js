@@ -17,6 +17,7 @@ const tokenForUser = (user) => {
 authController.login = (req, res, next) => {
     res.json({
         token: tokenForUser(req.user),
+        active: req.user.active,
         id: req.user.id,
         displayName: req.user.displayName,
         email: req.user.email,
@@ -55,7 +56,17 @@ authController.signup = (req, res) => {
                 return res.status(500).send({ error: 'Error creating user' });
             }
 
-            return res.json({ token: tokenForUser(user) });
+            return res.json({
+                token: tokenForUser(user),
+                id: user.id,
+                displayName: user.displayName,
+                email: user.email,
+                isDesigner: user.isDesigner,
+                admin: user.admin,
+                moderator: user.moderator,
+                superclusters: user.superclusters,
+
+            });
         });
     });
 };
@@ -66,6 +77,7 @@ authController.getCurrentUser = (req, res) => {
     User.findById(req.user.id, (err, user) => {
         res.json({
             id: req.user.id,
+            active: req.user.active,
             displayName: req.user.displayName,
             email: req.user.email,
             isDesigner: req.user.isDesigner,
@@ -97,6 +109,7 @@ authController.updateUser = (req, res) => {
             User.findById(userId, (err, user) => {
                 res.json({
                     id: user.id,
+                    active: user.active,
                     displayName: user.displayName,
                     email: user.email,
                     isDesigner: user.isDesigner,

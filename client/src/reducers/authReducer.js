@@ -3,7 +3,8 @@ import {
     GET_CURRENT_USER,
     LOGIN_SUCCESS,
     AUTH_ERROR,
-    LOGOUT_USER
+    LOGOUT_USER,
+    GET_MY_IMAGES
 } from '../actions/types';
 
 export default function(state = null, action) {
@@ -14,20 +15,23 @@ export default function(state = null, action) {
             return { ...state, authenticated: false, error: action.payload, password: null };
         case LOGOUT_USER:
             return {
-                authenticated: false,
-                error: null,
-                username: null,
-                password: null,
-                success: false,
-                loading: false,
-                id: null,
-                admin: false,
-                displayName: null,
-                isDesigner: false,
-                moderator: false,
-                permanent: false,
-                superclusters: []
-            };
+                   authenticated: false,
+                   error: null,
+                   username: null,
+                   password: null,
+                   success: false,
+                   loading: false,
+                   id: null,
+                   admin: false,
+                   displayName: null,
+                   isDesigner: false,
+                   moderator: false,
+                   permanent: false,
+                   superclusters: [],
+                   myImages: []
+               };
+        case GET_MY_IMAGES:
+            return { ...state, myImages: action.payload };
         case GET_CURRENT_USER:
             return { ...state, ...action.payload };
         case FETCH_USER:

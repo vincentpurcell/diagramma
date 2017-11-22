@@ -16,7 +16,7 @@ class Header extends Component {
     }
 
     renderLinks() {
-        if (this.props.auth.admin) {
+        if (this.props.auth.authenticated && this.props.auth.admin) {
             return (
                 <ul>
                     <li><NavLink exact activeClassName="active" className="black-text" to={'/admin'}>Dashboard</NavLink></li>
@@ -24,13 +24,13 @@ class Header extends Component {
                     <li><a className="black-text" onClick={() => this.logout()}>Logout</a></li>
                 </ul>
             );
-        } else if (this.props.auth.id) {
+        } else if (this.props.auth.authenticated) {
             return (
                 <ul>
                     <li><NavLink exact activeClassName="active" className="black-text" to={'/designer'}>Dashboard</NavLink></li>
-                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/diagrams'}>Manage My Diagrams</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/diagrams'}>Diagrams</NavLink></li>
                     <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/upload'}>Upload</NavLink></li>
-                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/profile'}>My Profile</NavLink></li>
+                    <li><NavLink exact activeClassName="active" className="black-text" to={'/designer/profile'}>Profile</NavLink></li>
                     <li><a className="black-text" onClick={() => this.logout()}>Logout</a></li>
                 </ul>
             );
@@ -48,7 +48,7 @@ class Header extends Component {
         return (
             <div>
                 <div className={this.props.auth.authenticated ? 'navbar-fixed' : 'navbar-fixed unauth'}>
-                    <nav className={this.props.auth.authenticated ? 'white black-text z-depth-0' : 'transparent black-text z-depth-0'}>
+                    <nav className={this.props.auth.authenticated ? 'white black-text z-depth-0' : 'white black-text z-depth-0'}>
                         <div className="nav-wrapper">
                             {this.renderLinks()}
                         </div>
