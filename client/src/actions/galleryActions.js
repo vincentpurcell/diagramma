@@ -9,9 +9,11 @@ import {
     HIDE_IMAGE,
 } from './types';
 
+import { API_URL } from './utilities';
+
 export const getDesigners = (getAll) => async dispatch => {
     try {
-        const res = await axios.get(`/api/designers${(getAll ? '?getAll=true': '')}`);
+        const res = await axios.get(`${API_URL}/designers${(getAll ? '?getAll=true': '')}`);
         dispatch({ type: GET_DESIGNERS, payload: res.data });
     } catch(err) {
         dispatch({ type: GET_DESIGNERS, payload: null });
@@ -20,7 +22,7 @@ export const getDesigners = (getAll) => async dispatch => {
 
 export const getImages = () => async dispatch => {
     try {
-        const res = await axios.get('/api/images');
+        const res = await axios.get(`${API_URL}/images`);
         dispatch({ type: GET_ALL_IMAGES, payload: shuffle(res.data) });
     } catch(err) {
         dispatch({ type: GET_ALL_IMAGES, payload: null });
@@ -29,7 +31,7 @@ export const getImages = () => async dispatch => {
 
 export const getImagesByDesigner = (designer) => async dispatch => {
     try {
-        const res = await axios.get(`/api/images/${designer.value}`);
+        const res = await axios.get(`${API_URL}/images/${designer.value}`);
         dispatch({ type: GET_IMAGES_BY_DESIGNER, payload: { imageList: shuffle(res.data), designer: designer.label} });
     } catch(err) {
         dispatch({ type: GET_IMAGES_BY_DESIGNER, payload: null });
@@ -46,7 +48,7 @@ export const hideImage = () => async dispatch => {
 
 export const updateImage = (image) => async dispatch => {
     try {
-        const res = await axios.put(`/api/image/${image.id}`, image, {
+        const res = await axios.put(`${API_URL}/image/${image.id}`, image, {
             headers: { authorization: localStorage.getItem('token') }
         });
     } catch (err) {
@@ -56,7 +58,7 @@ export const updateImage = (image) => async dispatch => {
 
 export const getVotes = (image) => async dispatch => {
     try {
-        const res = await axios.get(`/api/votes/${image.id}`);
+        const res = await axios.get(`${API_URL}/votes/${image.id}`);
         dispatch({ type: GET_VOTES, payload: res.data.votes });
     } catch(err) {
         dispatch({ type: GET_VOTES, payload: 0 });
@@ -65,7 +67,7 @@ export const getVotes = (image) => async dispatch => {
 
 export const castVote = (image) => async dispatch => {
     try {
-        const res = await axios.put(`/api/vote/${image.id}`);
+        const res = await axios.put(`${API_URL}/vote/${image.id}`);
         dispatch({ type: GET_VOTES, payload: res.data.votes });
     } catch(err) {
         dispatch({ type: GET_VOTES, payload: 0 });

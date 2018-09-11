@@ -8,6 +8,9 @@ import {
     GET_CURRENT_USER
 } from './types';
 
+
+import { API_URL } from './utilities';
+
 export const authError = (error) => {
     return {
         type: AUTH_ERROR,
@@ -26,7 +29,7 @@ export const doRedirect = (res) => {
 
 export const getCurrentUser = () => async dispatch => {
     try {
-        const res = await axios.get('/api/user/current', {
+        const res = await axios.get(`${API_URL}/user/current`, {
             headers: { authorization: localStorage.getItem('token') }
         });
         dispatch({ type: GET_CURRENT_USER, payload: res.data });
@@ -39,7 +42,7 @@ export const getCurrentUser = () => async dispatch => {
 
 export const loginUser = (user) => async dispatch => {
     try {
-        const res = await axios.post('/api/login', user);
+        const res = await axios.post(`${API_URL}/login`, user);
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         localStorage.setItem('token', res.data.token);
 
@@ -55,7 +58,7 @@ export const loginUser = (user) => async dispatch => {
 
 export const updateUser = (user) => async dispatch => {
     try {
-        const res = await axios.put('/api/user', user, {
+        const res = await axios.put(`${API_URL}/user`, user, {
             headers: { authorization: localStorage.getItem('token') }
         });
     } catch (err) {
@@ -65,7 +68,7 @@ export const updateUser = (user) => async dispatch => {
 
 export const updateMyProfile = (user) => async dispatch => {
     try {
-        const res = await axios.put('/api/user', user, {
+        const res = await axios.put(`${API_URL}/user`, user, {
             headers: { authorization: localStorage.getItem('token') }
         });
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
@@ -77,7 +80,7 @@ export const updateMyProfile = (user) => async dispatch => {
 
 export const registerUser = (user) => async dispatch => {
     try {
-        const res = await axios.post('/api/signup', user);
+        const res = await axios.post(`${API_URL}/signup`, user);
         dispatch({ type: LOGIN_SUCCESS, payload: res.data });
         localStorage.setItem('token', res.data.token);
         if (res.data.admin) {
@@ -91,7 +94,7 @@ export const registerUser = (user) => async dispatch => {
 };
 
 export const logoutUser = () => async dispatch => {
-    const res = await axios.get('/api/logout');
+    const res = await axios.get(`${API_URL}/logout`);
     dispatch({ type: LOGOUT_USER, payload: res.data });
 
     // Save the JWT

@@ -5,3 +5,5 @@ export const shuffle = (a) => {
     }
     return a;
 };
+
+export const API_URL = 'https://api.diagramma.co';

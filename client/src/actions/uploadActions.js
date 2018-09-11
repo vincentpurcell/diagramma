@@ -9,6 +9,8 @@ import {
     CLEAR_UPLOAD_QUEUE
 } from './types';
 
+import { API_URL } from './utilities';
+
 export const startProcessingFilesForUpload = () => dispatch => {
     dispatch({ type: START_PROCESSING_FILE_FOR_UPLOAD });
 };
@@ -48,7 +50,7 @@ export const uploadImage = (image, title, designer) => async dispatch => {
         console.log('appended title', title);
     }
 
-    XHR.open('PUT', '/api/image');
+    XHR.open('PUT', `${API_URL}/api/image`);
     XHR.setRequestHeader('authorization', localStorage.getItem('token'));
 
     // Add event listeners
