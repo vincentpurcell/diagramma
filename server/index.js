@@ -47,7 +47,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use('/api', api);
+app.use('/', api);
 
 // Error handler
 app.use((err, req, res, next) => {
