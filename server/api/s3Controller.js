@@ -89,7 +89,9 @@ exports.uploadImage = (req, res, next) => {
     }
 
     function deleteFile(file) {
-        fs.unlink(file);
+        fs.unlink(file, () => {
+            console.log('Done');
+        });
     }
 
     function sendImage(thumbnailFile) {
