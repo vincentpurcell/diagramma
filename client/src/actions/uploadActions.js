@@ -50,7 +50,7 @@ export const uploadImage = (image, title, designer) => async dispatch => {
         console.log('appended title', title);
     }
 
-    XHR.open('PUT', `${API_URL}/api/image`);
+    XHR.open('PUT', `${API_URL}/image`);
     XHR.setRequestHeader('authorization', localStorage.getItem('token'));
 
     // Add event listeners

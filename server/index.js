@@ -2,6 +2,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const api = require('./api');
@@ -15,6 +16,7 @@ const config = require('./config');
 const port = config.API_PORT || 3001;
 process.env.NODE_ENV = config.NODE_ENV || 'development';
 
+app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
